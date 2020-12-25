@@ -12,34 +12,33 @@ Shmuel Eliasyan
 Imports
 ===================================================================================================
 """
-import requests
+from elasticsearch import Elasticsearch
+from datetime import datetime
 
 
-class Find_similar_topics():
+class elasticsearch():
     """
     ===================================================================================================
     Init
     ===================================================================================================
     """
-    def __init__(self,vertor,dir):
-        self.vector=vertor
-        self.model=open(dir+"word2vec.model")
-        self.expaned_vector_with_conceptNet()
+    def __init__(self):
+        self.es = Elasticsearch()
+        # ignore 400 cause by IndexAlreadyExistsException when creating an index
+        self.es.indices.create(index='test-index', ignore=400)
 
+        self.es.index(index="my-index", id=42, body={"any": "data", "timestamp": datetime.now()})
+        print(self.es.get(index="my-index", id=42)['_source'])
     """
     ===================================================================================================
     Functions
     ===================================================================================================
     """
-    def expaned_vector_with_conceptNet(self):
-        temp=self.vector.copy()
-        for word in self.vector:
-            obj = requests.get('http://api.conceptnet.io/query?node =/c/en/' + word + '?rel=/r/Synonym&limit=20').json()
-            words = [edge['end']['label'] for edge in obj['edges']]
-            words = list(dict.fromkeys(words))
-            print(word)
-            print(words)
+    def exeptions(self):
 
-            temp.append(words)
-        print(temp)
+
+        # ignore 404 and 400
+        self.es.indices.delete(index='test-index', ignore=[400, 404])
+
+
 
