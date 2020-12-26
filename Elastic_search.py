@@ -24,6 +24,7 @@ class elasticsearch():
     """
     def __init__(self,dictionary):
         self.es = Elasticsearch()
+        print("Number of books: {}".format(len(dictionary)))
         # ignore 400 cause by IndexAlreadyExistsException when creating an index
         for i in range(len(dictionary)):
             self.es.indices.create(index=i, ignore=400)
