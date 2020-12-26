@@ -1,12 +1,12 @@
 # NLP_Book_Recommendation
 
-# Final Project
-## Software Engineering Department  
-## Jerusalem College of Engineering
+## Final Project
+### Software Engineering Department  
+### Jerusalem College of Engineering
 
 ## By: 
-## Sapir Nahum
-## Shmuel Eliasyan
+### Sapir Nahum
+### Shmuel Eliasyan
 
 ### Introduction:
 The project created in collaboration with Exlibris as part of the final project in the Department of Software Engineering
