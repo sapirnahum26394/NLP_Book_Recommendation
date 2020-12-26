@@ -36,8 +36,8 @@ class Create_model():
             print("Error creating the directory")
 
         self.dictionary=[]
-        records_list = self.parse_xml(file)
-        self.normalize_650_fields(records_list)
+        self.records_list = self.parse_xml(file)
+        self.normalize_650_fields(self.records_list)
         self.create_word2vec_model(dir)
 
     """

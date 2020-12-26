@@ -28,9 +28,9 @@ if __name__ == '__main__':
     model_dir="model/"
 
     word_vector = ["kid","baby","boy","child","mom","mother","done"]
-    elasticsearch()
-    # Create_model(XML_file,model_dir)
-    #
+    model=Create_model(XML_file,model_dir)
+    elasticsearch(model.records_list)
+
     # vector = Vector_reduction(word_vector)
     # print(vector.conceptNet)
     # print(vector.wordNet)

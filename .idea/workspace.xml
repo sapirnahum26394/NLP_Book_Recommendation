@@ -20,14 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f46d2689-12d8-4030-bdce-3552f9d7c72a" name="Default Changelist" comment="update">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Elastic_search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/NLP_Book_Recommendation.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NLP_Book_Recommendation.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Find_similar.py" beforeDir="false" afterPath="$PROJECT_DIR$/Find_similar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Create_Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Create_Model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Elastic_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/Elastic_search.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

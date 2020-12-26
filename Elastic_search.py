@@ -22,13 +22,13 @@ class elasticsearch():
     Init
     ===================================================================================================
     """
-    def __init__(self):
+    def __init__(self,dictionary):
         self.es = Elasticsearch()
         # ignore 400 cause by IndexAlreadyExistsException when creating an index
-        self.es.indices.create(index='test-index', ignore=400)
-
-        self.es.index(index="my-index", id=42, body={"any": "data", "timestamp": datetime.now()})
-        print(self.es.get(index="my-index", id=42)['_source'])
+        for i in range(len(dictionary)):
+            self.es.indices.create(index=i, ignore=400)
+            self.es.index(index=i, id=i, body={"book_id": dictionary[i][0], "topics": dictionary[i][1]})
+            print(self.es.get(index=i, id=i)['_source'])
     """
     ===================================================================================================
     Functions
