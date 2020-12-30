@@ -71,12 +71,10 @@ class Create_model():
         return fields_and_ids
 
     def normalize_650_fields(self,records_list):
-
         for record in records_list:
             for i, subfield in enumerate(record[1]):
                 sent=[i.lower() for i in re.findall("[A-Za-z]+", record[1][i])]
                 self.dictionary.append(sent)
-
 
 
     def create_word2vec_model(self,dir):
