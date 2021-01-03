@@ -29,8 +29,9 @@ if __name__ == '__main__':
 
     word_vector = ["kid","baby","boy","child","mom","mother","done"]
     model=Create_model(XML_file,model_dir)
-    elasticsearch(model.records_list)
-
+    elastic=elasticsearch()
+    # elastic.upload_dictionary(model.records_list,"books")
+    print(elastic.find_token("fiction"))
     # vector = Vector_reduction(word_vector)
     # print(vector.conceptNet)
     # print(vector.wordNet)
