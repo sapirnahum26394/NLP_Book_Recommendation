@@ -12,37 +12,32 @@ Shmuel Eliasyan
 Imports
 ===================================================================================================
 """
-import requests
+from Elastic_search import elasticsearch
+from Find_similar import Find_similar_topics
 
 
-class Find_similar_topics():
+class Index_Records_And_Expand_Elastic():
     """
     ===================================================================================================
     Init
     ===================================================================================================
     """
-    def __init__(self,vertor,dir):
-        self.vector=vertor
-        self.model=open(dir+"word2vec.model")
-        self.expaned_vector_with_conceptNet()
+    def __init__(self,records_list):
+        self.index_records_and_expand_elastic(records_list)
 
     """
     ===================================================================================================
     Functions
     ===================================================================================================
     """
-    def expaned_vector_with_conceptNet(self):
-        temp=self.vector.copy()
-        for word in self.vector:
-            obj = requests.get('http://api.conceptnet.io/query?node =/c/en/' + word + '?rel=/r/Synonym&limit=20').json()
-            words = [edge['end']['label'] for edge in obj['edges']]
-            words = list(dict.fromkeys(words))
-            print(word)
-            print(words)
+    def find_indexed_records(self,records_list):
+        for record in records_list:
+            words_indexes = []
+            for word in record[1]:
+                token_index = elasticsearch.find_token_index(word)
+                if token_index is -1:
+                    synonyms = Find_similar_topics.get_synonyms_list(word)
+                    token_index = elasticsearch.add_new_synonyms_list(synonyms)
+                words_indexes.append(token_index)
+            elasticsearch.add_new_record_with_indexes(record[0],words_indexes)
 
-            temp.append(words)
-        print(temp)
-
-    def get_synonyms_list(word):
-        print("the method should return a vector with the word synonyms")
-        return []

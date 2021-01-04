@@ -17,6 +17,7 @@ from Topic_Vector_Reduction import Vector_reduction
 from Find_similar import Find_similar_topics
 from Elastic_search import elasticsearch
 from nltk.corpus import wordnet
+from Index_Records_And_Expand_Elastic import Index_Records_And_Expand_Elastic
 
 """
 ===================================================================================================
@@ -28,10 +29,9 @@ if __name__ == '__main__':
     model_dir="model/"
 
     word_vector = ["kid","baby","boy","child","mom","mother","done"]
-    model=Create_model(XML_file,model_dir)
-    elastic=elasticsearch()
-    # elastic.upload_dictionary(model.records_list,"books")
-    print(elastic.find_token("fiction"))
+    #model=Create_model(XML_file,model_dir)
+    #elasticsearch(model.records_list)
+    Index_Records_And_Expand_Elastic([["12",["hey","zot","ani"]]])
     # vector = Vector_reduction(word_vector)
     # print(vector.conceptNet)
     # print(vector.wordNet)

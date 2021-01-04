@@ -35,10 +35,10 @@ class Create_model():
         except:
             print("Error creating the directory")
 
-        self.dictionary=[]
+        #self.dictionary=[]
         self.records_list = self.parse_xml(file)
         self.normalize_650_fields(self.records_list)
-        self.create_word2vec_model(dir)
+        #self.create_word2vec_model(dir)
 
     """
     ===================================================================================================
@@ -72,10 +72,26 @@ class Create_model():
 
     def normalize_650_fields(self,records_list):
         for record in records_list:
-            for i, subfield in enumerate(record[1]):
-                sent=[i.lower() for i in re.findall("[A-Za-z]+", record[1][i])]
-                self.dictionary.append(sent)
+            final_words_array = []
 
+            for i, subfield in enumerate(record[1]):
+                record[1][i] = re.sub(r'\[[0-9]*\]', '', subfield)
+                cell_value = self.normalize_single_array_cell(record[1][i])
+                index_i_words_array = cell_value.split()
+                for word in index_i_words_array:
+                    if word not in final_words_array:
+                        final_words_array.append(word)
+
+            record[1] = final_words_array
+
+
+    def normalize_single_array_cell(self,cell_value):
+        cell_value = cell_value.lower()
+        cell_value = re.sub(r'\d', ' ', cell_value)
+        cell_value = re.sub(r'\s+', ' ', cell_value)
+        cell_value = re.sub(r'\.', '',cell_value)
+        cell_value = re.sub(r'\-', ' ', cell_value)
+        return cell_value
 
     def create_word2vec_model(self,dir):
         model = Word2Vec(sentences=self.dictionary, window=5, min_count=1, workers=4)
