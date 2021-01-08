@@ -12,12 +12,16 @@ Shmuel Eliasyan
 Imports
 ===================================================================================================
 """
-from Create_Model import Create_model
+from Normalize_marc_file import normalizeMarc
 from Topic_Vector_Reduction import Vector_reduction
 from Find_similar import Find_similar_topics
 from Elastic_search import elasticsearch
-from nltk.corpus import wordnet
-from Index_Records_And_Expand_Elastic import Index_Records_And_Expand_Elastic
+from Expend_synonym_index import expend_synonym_index
+import time
+
+# import nltk
+# nltk.download('wordnet')
+
 
 """
 ===================================================================================================
@@ -25,22 +29,25 @@ Main
 ===================================================================================================
 """
 if __name__ == '__main__':
-    XML_file="bib records.xml"
-    model_dir="model/"
+    XML_file = "bib records.xml"
+    model_dir = "model/"
 
-    word_vector = ["kid","baby","boy","child","mom","mother","done"]
-    #model=Create_model(XML_file,model_dir)
-    #elasticsearch(model.records_list)
-    Index_Records_And_Expand_Elastic([["12",["hey","zot","ani"]]])
-    # vector = Vector_reduction(word_vector)
-    # print(vector.conceptNet)
-    # print(vector.wordNet)
-    # print(vector.conceptNetAndWordNet)
-    # new_vector = vector.conceptNet
-    # Find_similar_topics(new_vector,model_dir)
-    #
-    # synset = wordnet.synsets("child")
-    # print('Word and Type : ' + synset[0].name())
-    # print('Synonym of Travel is: ' + str([i.name() for i in synset[0].lemmas()]))
-    # print('The meaning of the word : ' + synset[0].definition())
-    # print('Example of Travel : ' + str(synset[0].examples()))
+    # Normalize marc(xml) file and create a record list containing mms_id and list of topics for each record
+    data = normalizeMarc(XML_file, model_dir)
+    record_list = data.records_list
+
+    # Elastic search - uploading the record list to local elastic search
+    es = elasticsearch()
+    es.upload_dictionary(record_list, "create")
+
+    time.sleep(3)
+
+    # expend every topic in the record list with wordnet and create new index in elasticsearch
+    expend_synonym_index(record_list)
+
+    # reducing the records list topics and uploading to elastic search
+    reduce = Vector_reduction()
+    for i in range(len(record_list)):
+        record_list[i][1] = reduce.normalize_words_vector_wordnet(record_list[i][1])
+    print(record_list)
+    es.upload_dictionary(record_list, "update")

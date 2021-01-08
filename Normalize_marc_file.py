@@ -20,7 +20,7 @@ import re
 
 
 
-class Create_model():
+class normalizeMarc():
     """
     ===================================================================================================
     Init
@@ -35,7 +35,7 @@ class Create_model():
         except:
             print("Error creating the directory")
 
-        #self.dictionary=[]
+        self.dictionary=[]
         self.records_list = self.parse_xml(file)
         self.normalize_650_fields(self.records_list)
         #self.create_word2vec_model(dir)
@@ -67,6 +67,8 @@ class Create_model():
             if(fields):
                 fields_and_id.append(mms_id)
                 fields_and_id.append(fields)
+                self.dictionary=self.dictionary+fields
+                self.dictionary = list(dict.fromkeys(self.dictionary))
                 fields_and_ids.append(fields_and_id)
         return fields_and_ids
 

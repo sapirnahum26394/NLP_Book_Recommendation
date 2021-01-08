@@ -23,11 +23,11 @@ class Vector_reduction():
     Init
     ===================================================================================================
     """
-    def __init__(self,vector):
-        self.conceptNet = self.normalize_words_vector_conceptnet(vector)
-        self.wordNet = self.normalize_words_vector_wordnet(vector)
-        self.conceptNetAndWordNet = self.normalize_words_vector_conceptnet(vector)
-        self.conceptNetAndWordNet = self.normalize_words_vector_wordnet(self.conceptNetAndWordNet)
+    # def __init__(self,vector):
+    #     self.conceptNet = self.normalize_words_vector_conceptnet(vector)
+    #     self.wordNet = self.normalize_words_vector_wordnet(vector)
+    #     self.conceptNetAndWordNet = self.normalize_words_vector_conceptnet(vector)
+    #     self.conceptNetAndWordNet = self.normalize_words_vector_wordnet(self.conceptNetAndWordNet)
 
 
     """

@@ -30,43 +30,44 @@ class elasticsearch():
     Functions
     ===================================================================================================
     """
-    def upload_dictionary(self,dictionary,index):
-        print("Number of books: {}".format(len(dictionary)))
-        if index=="books":
-            val1="book_id"
-            val2="topics"
-        for i in range(len(dictionary)):
-            self.client.indices.create(index=index, ignore=400)
-            self.client.index(index=index, id=i, body={val1: dictionary[i][0], val2: dictionary[i][1]})
-            # print(self.client.get(index=index, id=i)['_source'])
+    def upload_dictionary(self,dictionary,mode):
+        if mode == "create":
+            self.client.indices.create(index="books", ignore=400)
+            for i in range(len(dictionary)):
+                self.client.index(index="books", id=dictionary[i][0], body={"topics": dictionary[i][1], "synonym": []})
+        elif mode == "update":
+            for i in range(len(dictionary)):
+                self.client.update(index="books", id=dictionary[i][0], body={"doc": {"topics": dictionary[i][1]}})
 
     def delete_index(self,index):
         self.client.indices.delete(index=index, ignore=[400, 404])
 
-
-    def find_books(self,token):
+    def find_books(self, token):
         books_id=[]
-        res = self.client.search(index="books",body={"query": {"match": {"topics":token}}},size=1000)
-        print("Got %d Hits:" % res['hits']['total']['value'])
+        res = self.client.search(index="books",body={"query": {"match": {"topics": token}}}, size=1000)
         if res['hits']['total']['value'] == 0:
             return -1
         else:
             for hit in res['hits']['hits']:
-                books_id.append(hit['_source']['book_id'])
+                books_id.append(hit['_id'])
         return books_id
 
-    def find_token_index(token):
-        print("need to add a body to the method")
-        print("the method should search and return the index of the token from the elastic search")
-        print("and if the token does not exist in the elastic search the method should return -1")
-        return -1
+    def find_token_index(self, token):
+        try:
+            res = self.client.search(index="synonyms",body={"query": {"match": {"words":token}}},size=1000)
+            if res['hits']['total']['value'] == 0:
+                return -1
+            else:
+                return res['hits']['hits'][0]['_id']
 
-    def add_new_synonyms_list(synonyms_list):
-        print("need to add a body to the method")
-        print("the method should create a new index in the elastic search (in the synonyms column), and add the synonyms list into it")
-        print("the method should return the number(key?) of the new added index")
-        return 1
+        except:
+            return -1
 
-    def add_new_record_with_indexes(mms_id,record_indexes):
-        print("need to add a body to the method")
-        print("the method should create a new index in the elastic search (in the records with indexes coulumn), and add the record with the relevant indexes list into it")
+    def add_new_synonyms_list(self, synonyms_list):
+        self.client.indices.create(index="synonyms", ignore=400)
+        return (self.client.index(index="synonyms", body={"words":synonyms_list}))['_id']
+
+    def update_record_with_indexes(self,mms_id,record_indexes):
+        res = self.client.get(index="books",id=mms_id)
+        self.client.update(index="books", id=mms_id, body={"doc": {"synonym": record_indexes}})
+

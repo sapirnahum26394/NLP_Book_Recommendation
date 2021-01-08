@@ -16,14 +16,14 @@ from Elastic_search import elasticsearch
 from Find_similar import Find_similar_topics
 
 
-class Index_Records_And_Expand_Elastic():
+class expend_synonym_index():
     """
     ===================================================================================================
     Init
     ===================================================================================================
     """
     def __init__(self,records_list):
-        self.index_records_and_expand_elastic(records_list)
+        self.find_indexed_records(records_list)
 
     """
     ===================================================================================================
@@ -31,13 +31,15 @@ class Index_Records_And_Expand_Elastic():
     ===================================================================================================
     """
     def find_indexed_records(self,records_list):
+        elastic = elasticsearch()
+        similar = Find_similar_topics()
         for record in records_list:
             words_indexes = []
             for word in record[1]:
-                token_index = elasticsearch.find_token_index(word)
-                if token_index is -1:
-                    synonyms = Find_similar_topics.get_synonyms_list(word)
-                    token_index = elasticsearch.add_new_synonyms_list(synonyms)
+                token_index = elastic.find_token_index(word)
+                if token_index == -1:
+                    synonyms = similar.get_synonyms_list(word)
+                    token_index = elastic.add_new_synonyms_list(synonyms)
                 words_indexes.append(token_index)
-            elasticsearch.add_new_record_with_indexes(record[0],words_indexes)
+            elastic.update_record_with_indexes(record[0],words_indexes)
 

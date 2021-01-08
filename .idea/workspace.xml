@@ -20,10 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f46d2689-12d8-4030-bdce-3552f9d7c72a" name="Default Changelist" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/NLP_Book_Recommendation.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NLP_Book_Recommendation.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Create_Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Normalize_marc_file.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Elastic_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/Elastic_search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Find_similar.py" beforeDir="false" afterPath="$PROJECT_DIR$/Find_similar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Index_Records_And_Expand_Elastic.py" beforeDir="false" afterPath="$PROJECT_DIR$/Expend_synonym_index.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Topic_Vector_Reduction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Topic_Vector_Reduction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/word2vec.model" beforeDir="false" afterPath="$PROJECT_DIR$/model/word2vec.model" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/word2vec.model" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +38,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1kNDZ9VakFdvzDhmR8AvG3xZxrH" />
   <component name="ProjectViewState">
@@ -127,69 +141,5 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update" />
     <option name="LAST_COMMIT_MESSAGE" value="update" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="0" y="46" key="#Inspections" timestamp="1605534968138">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="0" y="46" key="#Inspections/0.0.1366.728@0.0.1366.728" timestamp="1605534968138" />
-    <state x="569" y="165" key="FileChooserDialogImpl" timestamp="1609687510939">
-      <screen x="0" y="0" width="1680" height="1010" />
-    </state>
-    <state x="569" y="165" key="FileChooserDialogImpl/-1366.90.1366.728/0.0.1680.1010@0.0.1680.1010" timestamp="1609687510939" />
-    <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1606325377403" />
-    <state width="1659" height="472" key="GridCell.Tab.0.bottom" timestamp="1609702070957">
-      <screen x="0" y="0" width="1680" height="1010" />
-    </state>
-    <state width="816" height="519" key="GridCell.Tab.0.bottom/-1366.90.1366.728/0.0.1680.1010@0.0.1680.1010" timestamp="1609699219533" />
-    <state width="1345" height="2" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1608933337188" />
-    <state width="1659" height="472" key="GridCell.Tab.0.bottom/0.0.1680.1010@0.0.1680.1010" timestamp="1609702070957" />
-    <state width="1659" height="472" key="GridCell.Tab.0.center" timestamp="1609702070957">
-      <screen x="0" y="0" width="1680" height="1010" />
-    </state>
-    <state width="816" height="519" key="GridCell.Tab.0.center/-1366.90.1366.728/0.0.1680.1010@0.0.1680.1010" timestamp="1609699219533" />
-    <state width="1345" height="2" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1608933337188" />
-    <state width="1659" height="472" key="GridCell.Tab.0.center/0.0.1680.1010@0.0.1680.1010" timestamp="1609702070957" />
-    <state width="1659" height="472" key="GridCell.Tab.0.left" timestamp="1609702070957">
-      <screen x="0" y="0" width="1680" height="1010" />
-    </state>
-    <state width="816" height="519" key="GridCell.Tab.0.left/-1366.90.1366.728/0.0.1680.1010@0.0.1680.1010" timestamp="1609699219533" />
-    <state width="1345" height="2" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1608933337187" />
-    <state width="1659" height="472" key="GridCell.Tab.0.left/0.0.1680.1010@0.0.1680.1010" timestamp="1609702070957" />
-    <state width="1659" height="472" key="GridCell.Tab.0.right" timestamp="1609702070957">
-      <screen x="0" y="0" width="1680" height="1010" />
-    </state>
-    <state width="816" height="519" key="GridCell.Tab.0.right/-1366.90.1366.728/0.0.1680.1010@0.0.1680.1010" timestamp="1609699219533" />
-    <state width="1345" height="2" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1608933337188" />
-    <state width="1659" height="472" key="GridCell.Tab.0.right/0.0.1680.1010@0.0.1680.1010" timestamp="1609702070957" />
-    <state width="1345" height="223" key="GridCell.Tab.1.bottom" timestamp="1605970492182">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1605970492182" />
-    <state width="1345" height="223" key="GridCell.Tab.1.center" timestamp="1605970492182">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1605970492182" />
-    <state width="1345" height="223" key="GridCell.Tab.1.left" timestamp="1605970492182">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1605970492182" />
-    <state width="1345" height="223" key="GridCell.Tab.1.right" timestamp="1605970492182">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1605970492182" />
-    <state x="241" y="24" key="SettingsEditor" timestamp="1609698868537">
-      <screen x="0" y="0" width="1680" height="1010" />
-    </state>
-    <state x="241" y="24" key="SettingsEditor/-1366.90.1366.728/0.0.1680.1010@0.0.1680.1010" timestamp="1609698868537" />
-    <state x="196" y="17" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1608896391763" />
-    <state x="275" y="84" key="Vcs.Push.Dialog.v2" timestamp="1605957859034">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="275" y="84" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1605957859034" />
-    <state x="412" y="265" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1605532230010">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="412" y="265" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1366.728@0.0.1366.728" timestamp="1605532230010" />
   </component>
 </project>
