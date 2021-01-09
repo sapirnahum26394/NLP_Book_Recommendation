@@ -17,6 +17,8 @@ from Topic_Vector_Reduction import Vector_reduction
 from Find_similar import Find_similar_topics
 from Elastic_search import elasticsearch
 from Expend_synonym_index import expend_synonym_index
+from Find_books import find_books
+
 import time
 
 # import nltk
@@ -30,10 +32,9 @@ Main
 """
 if __name__ == '__main__':
     XML_file = "bib records.xml"
-    model_dir = "model/"
 
     # Normalize marc(xml) file and create a record list containing mms_id and list of topics for each record
-    data = normalizeMarc(XML_file, model_dir)
+    data = normalizeMarc(XML_file)
     record_list = data.records_list
 
     # Elastic search - uploading the record list to local elastic search
@@ -51,3 +52,8 @@ if __name__ == '__main__':
         record_list[i][1] = reduce.normalize_words_vector_wordnet(record_list[i][1])
     print(record_list)
     es.upload_dictionary(record_list, "update")
+
+    # find recommended books
+    findBooks = find_books()
+    print(findBooks.find_books_by_book_id("991001088454304574"))
+    print(findBooks.find_books_by_token("fiction"))

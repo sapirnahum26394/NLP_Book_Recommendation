@@ -20,16 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f46d2689-12d8-4030-bdce-3552f9d7c72a" name="Default Changelist" comment="update">
-      <change beforePath="$PROJECT_DIR$/.idea/NLP_Book_Recommendation.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NLP_Book_Recommendation.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Create_Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Normalize_marc_file.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Elastic_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/Elastic_search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Find_similar.py" beforeDir="false" afterPath="$PROJECT_DIR$/Find_similar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Index_Records_And_Expand_Elastic.py" beforeDir="false" afterPath="$PROJECT_DIR$/Expend_synonym_index.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Topic_Vector_Reduction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Topic_Vector_Reduction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Normalize_marc_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/Normalize_marc_file.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/word2vec.model" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

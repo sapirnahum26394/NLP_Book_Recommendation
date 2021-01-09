@@ -71,3 +71,30 @@ class elasticsearch():
         res = self.client.get(index="books",id=mms_id)
         self.client.update(index="books", id=mms_id, body={"doc": {"synonym": record_indexes}})
 
+    def get_book_synonym(self,mms_id):
+        res = self.client.get(index="books", id=mms_id)
+        return res['_source']['synonym']
+
+    def get_books_by_common_synonym(self,synonym,lamda):
+        count = {}
+        for i in synonym:
+            res = self.client.search(index="books",body={"query": {"match": {"synonym":i}}},size=1000)
+            for hit in res['hits']['hits']:
+                if hit['_id'] in count:
+                    count[hit['_id']] += 1
+                else:
+                    count[hit['_id']] = 1
+
+        temp = count.copy()
+        for j in count:
+            if count[j] < lamda:
+                del temp[j]
+
+        return temp
+
+    def get_synonym_index_by_token(self,token):
+        synonyms = []
+        res = self.client.search(index="synonyms", body={"query": {"match": {"words": token}}}, size=1000)
+        for hit in res['hits']['hits']:
+            synonyms.append(hit['_id'])
+        return synonyms

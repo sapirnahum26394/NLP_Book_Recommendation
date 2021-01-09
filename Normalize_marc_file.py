@@ -26,19 +26,11 @@ class normalizeMarc():
     Init
     ===================================================================================================
     """
-    def __init__(self,file,dir):
+    def __init__(self,file):
 
-        if os.path.exists(dir) == True:
-            shutil.rmtree(dir)
-        try:
-            os.mkdir(dir)
-        except:
-            print("Error creating the directory")
-
-        self.dictionary=[]
+        self.dictionary = []
         self.records_list = self.parse_xml(file)
         self.normalize_650_fields(self.records_list)
-        #self.create_word2vec_model(dir)
 
     """
     ===================================================================================================
