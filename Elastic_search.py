@@ -34,7 +34,7 @@ class elasticsearch():
         if mode == "create":
             self.client.indices.create(index="books", ignore=400)
             for i in range(len(dictionary)):
-                self.client.index(index="books", id=dictionary[i][0], body={"topics": dictionary[i][1], "synonym": []})
+                self.client.index(index="books", id=dictionary[i][0], body={"title": dictionary[i][2],"topics": dictionary[i][1], "synonym": []})
         elif mode == "update":
             for i in range(len(dictionary)):
                 self.client.update(index="books", id=dictionary[i][0], body={"doc": {"topics": dictionary[i][1]}})
@@ -81,13 +81,13 @@ class elasticsearch():
             res = self.client.search(index="books",body={"query": {"match": {"synonym":i}}},size=1000)
             for hit in res['hits']['hits']:
                 if hit['_id'] in count:
-                    count[hit['_id']] += 1
+                    count[hit['_id']][1] += 1
                 else:
-                    count[hit['_id']] = 1
+                    count[hit['_id']] = [hit['_source']['title'],1]
 
         temp = count.copy()
         for j in count:
-            if count[j] < lamda:
+            if count[j][1] < lamda:
                 del temp[j]
 
         return temp

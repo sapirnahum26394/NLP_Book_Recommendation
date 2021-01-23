@@ -55,10 +55,14 @@ class normalizeMarc():
                 if(field.get('tag') == '650'):
                     for subfield in field.findall('subfield'):
                         fields.append(subfield.text)
+                elif(field.get('tag') == '245'):
+                    for subfield in field.findall('subfield'):
+                        title=subfield.text
 
             if(fields):
                 fields_and_id.append(mms_id)
                 fields_and_id.append(fields)
+                fields_and_id.append(title)
                 self.dictionary=self.dictionary+fields
                 self.dictionary = list(dict.fromkeys(self.dictionary))
                 fields_and_ids.append(fields_and_id)

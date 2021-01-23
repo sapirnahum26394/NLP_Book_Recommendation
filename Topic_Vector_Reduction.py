@@ -37,6 +37,7 @@ class Vector_reduction():
     """
 
     def normalize_words_vector_wordnet(self,words_vector):
+        print(words_vector)
         nltk.download('wordnet')
         expanded_words_vector = []
         words_vector_copy = words_vector.copy();
@@ -49,6 +50,7 @@ class Vector_reduction():
                 for name in syn_set._lemma_names:
                     if name not in expanded_words_vector:
                         expanded_words_vector.append(name)
+        print(words_vector)
         return words_vector
 
 

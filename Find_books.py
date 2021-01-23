@@ -33,7 +33,12 @@ class find_books():
     """
     def find_books_by_book_id(self,mms_id,lamda = 3):
         synonym = self.es.get_book_synonym(mms_id)
-        return self.es.get_books_by_common_synonym(synonym,lamda)
+        synonym = self.es.get_books_by_common_synonym(synonym,lamda)
+        del synonym[str(mms_id)]
+        books={}
+        for book in synonym:
+            books[book] = synonym[book][0]
+        return books
 
 
     def find_books_by_token(self,token,lamda = 1):
