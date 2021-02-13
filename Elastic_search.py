@@ -34,7 +34,9 @@ class elasticsearch():
         if mode == "create":
             self.client.indices.create(index="books", ignore=400)
             for i in range(len(dictionary)):
-                self.client.index(index="books", id=dictionary[i][0], body={"title": dictionary[i][2],"topics": dictionary[i][1], "synonym": []})
+                res = self.client.exists(index="books", id=dictionary[i][0])
+                if res==False:
+                    self.client.index(index="books", id=dictionary[i][0], body={"title": dictionary[i][2],"topics": dictionary[i][1], "synonym": []})
         elif mode == "update":
             for i in range(len(dictionary)):
                 self.client.update(index="books", id=dictionary[i][0], body={"doc": {"topics": dictionary[i][1]}})

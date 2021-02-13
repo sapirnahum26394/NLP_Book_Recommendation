@@ -3,11 +3,12 @@ from Find_similar import Find_similar_topics
 from Topic_Vector_Reduction import Vector_reduction
 from Normalize_marc_file import normalizeMarc
 from Elastic_search import elasticsearch
-
+from Expend_synonym_index import expend_synonym_index
 import os
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
+import json
 
 UPLOAD_FOLDER = 'files'
 ALLOWED_EXTENSIONS = set(['xml'])
@@ -54,6 +55,11 @@ def uploaded_file(filename):
 
     es = elasticsearch()
     es.upload_dictionary(record_list, "create")
+    expend_synonym_index(record_list)
+    reduce = Vector_reduction()
+    for i in range(len(record_list)):
+        record_list[i][1] = reduce.normalize_words_vector_wordnet(record_list[i][1])
+    es.upload_dictionary(record_list, "update")
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 

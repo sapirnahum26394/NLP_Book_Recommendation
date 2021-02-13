@@ -17,8 +17,10 @@ from gensim.models import Word2Vec
 import shutil
 import os
 import re
-
-
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+stop_words = set(stopwords.words('english'))
 
 class normalizeMarc():
     """
@@ -54,7 +56,8 @@ class normalizeMarc():
             for field in record.findall('datafield'):
                 if(field.get('tag') == '650'):
                     for subfield in field.findall('subfield'):
-                        fields.append(subfield.text)
+                        if subfield.get('code')=='a':
+                            fields.append(subfield.text)
                 elif(field.get('tag') == '245'):
                     for subfield in field.findall('subfield'):
                         title=subfield.text
@@ -78,7 +81,8 @@ class normalizeMarc():
                 index_i_words_array = cell_value.split()
                 for word in index_i_words_array:
                     if word not in final_words_array:
-                        final_words_array.append(word)
+                        if word not in stop_words:
+                            final_words_array.append(word)
 
             record[1] = final_words_array
 
@@ -89,6 +93,13 @@ class normalizeMarc():
         cell_value = re.sub(r'\s+', ' ', cell_value)
         cell_value = re.sub(r'\.', '',cell_value)
         cell_value = re.sub(r'\-', ' ', cell_value)
+        cell_value = re.sub(r'\(', '',cell_value)
+        cell_value = re.sub(r'\)', '', cell_value)
+        cell_value = re.sub(r'\,', '', cell_value)
+        cell_value = re.sub("'s", '', cell_value)
+        cell_value = re.sub("'", '', cell_value)
+        cell_value = re.sub("&", '', cell_value)
+
         return cell_value
 
     def create_word2vec_model(self,dir):

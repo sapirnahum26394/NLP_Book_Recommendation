@@ -35,6 +35,7 @@ class Find_similar_topics():
 
     def get_synonyms_list(self, word):
         synonyms = []
+        synonyms.append(word)
         for syn in wn.synsets(word):
             for l in syn.lemmas():
                 synonyms.append(l.name())

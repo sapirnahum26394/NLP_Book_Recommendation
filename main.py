@@ -34,25 +34,24 @@ if __name__ == '__main__':
     XML_file = "bib records.xml"
 
     # Normalize marc(xml) file and create a record list containing mms_id and list of topics for each record
-    # data = normalizeMarc(XML_file)
-    # record_list = data.records_list
+    data = normalizeMarc(XML_file)
+    record_list = data.records_list
     # print(record_list)
 
     # Elastic search - uploading the record list to local elastic search
-    # es = elasticsearch()
-    # es.upload_dictionary(record_list, "create")
+    es = elasticsearch()
+    es.upload_dictionary(record_list, "create")
 
     time.sleep(3)
 
     # expend every topic in the record list with wordnet and create new index in elasticsearch
-    # expend_synonym_index(record_list)
+    expend_synonym_index(record_list)
 
     # reducing the records list topics and uploading to elastic search
     reduce = Vector_reduction()
-    reduce.normalize_words_vector_wordnet(["quick","lady","widows","fiction","friendship","fast","man","woman","relationship","sears"])
-    # for i in range(len(record_list)):
-    #     record_list[i][1] = reduce.normalize_words_vector_wordnet(record_list[i][1])
-    # es.upload_dictionary(record_list, "update")
+    for i in range(len(record_list)):
+        record_list[i][1] = reduce.normalize_words_vector_wordnet(record_list[i][1])
+    es.upload_dictionary(record_list, "update")
 
 
 
