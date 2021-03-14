@@ -20,13 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f46d2689-12d8-4030-bdce-3552f9d7c72a" name="Default Changelist" comment="update">
-      <change afterPath="$PROJECT_DIR$/Rate_books.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Elastic_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/Elastic_search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Expend_synonym_index.py" beforeDir="false" afterPath="$PROJECT_DIR$/Expend_synonym_index.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Find_books.py" beforeDir="false" afterPath="$PROJECT_DIR$/Find_books.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Normalize_marc_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/Normalize_marc_file.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Topic_Vector_Reduction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Topic_Vector_Reduction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rate_books.py" beforeDir="false" afterPath="$PROJECT_DIR$/Rate_books.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes.py" afterDir="false" />
     </list>
@@ -58,6 +54,27 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.main">
+    <configuration name="Rate_books" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="NLP_Book_Recommendation" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Rate_books.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="NLP_Book_Recommendation" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -103,6 +120,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.Rate_books" />
         <item itemvalue="Python.word2vec first implementetion" />
       </list>
     </recent_temporary>
@@ -122,7 +140,14 @@
       <option name="presentableId" value="LOCAL‎00001" />
       <updated>1605957851951</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="update">
+      <created>1615742556773</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1615742556773</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -41,10 +41,10 @@ class find_books():
         books = []
         for book in synonym:
             books.append(book)
-#         books={}books
-#         for book in synonym:
-#             books[book] = synonym[book][0]
-        return books
+        books_names = {}
+        for book in synonym:
+            books_names[book] = synonym[book][0]
+        return books,books_names
 
 
     def find_books_by_token(self,token,lamda = 2):

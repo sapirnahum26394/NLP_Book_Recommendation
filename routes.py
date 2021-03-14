@@ -70,8 +70,8 @@ def mms_id():
 #     try:
     id = request.args.get('id', default="*", type=int)
     fb = find_books()
-    res = fb.find_books_by_book_id(id)
-    rated = rb.get_books_by_rate(id,res)
+    res,books_names = fb.find_books_by_book_id(id)
+    rated = rb.get_books_by_rate(id,res,books_names)
 #     except:
 #         return "Error"
     return rated
