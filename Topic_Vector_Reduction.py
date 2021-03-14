@@ -39,7 +39,7 @@ class Vector_reduction():
     def normalize_words_vector_wordnet(self,words_vector):
         nltk.download('wordnet')
         expanded_words_vector = []
-        words_vector_copy = words_vector.copy();
+        words_vector_copy = words_vector.copy()
         for word in words_vector_copy:
             if word in expanded_words_vector:
                 words_vector.remove(word)
@@ -53,14 +53,14 @@ class Vector_reduction():
 
 
     def normalize_words_vector_conceptnet(self,words_vector):
-        words_vector_copy = words_vector.copy();
+        words_vector_copy = words_vector.copy()
         for first_word_index in range(0, len(words_vector_copy)):
             for second_word_index in range(first_word_index + 1, len(words_vector_copy)):
-                url = self.parse_conceptnet_url(words_vector_copy[first_word_index], words_vector_copy[second_word_index]);
-                synonyms_json_obj = requests.get(url).json();
+                url = self.parse_conceptnet_url(words_vector_copy[first_word_index], words_vector_copy[second_word_index])
+                synonyms_json_obj = requests.get(url).json()
                 if len(synonyms_json_obj['edges']):
                     words_vector.remove(words_vector_copy[first_word_index])
-                    break;
+                    break
         return words_vector
 
 

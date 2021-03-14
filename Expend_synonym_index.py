@@ -36,9 +36,11 @@ class expend_synonym_index():
         for record in records_list:
             words_indexes = []
             for word in record[1]:
+#                 print("word: ",word)
                 token_index = elastic.find_token_index(word)
                 if token_index == -1:
                     synonyms = similar.get_synonyms_list(word)
+#                 print("synonyms: ", synonyms)
                     token_index = elastic.add_new_synonyms_list(synonyms)
                 words_indexes.append(token_index)
             elastic.update_record_with_indexes(record[0],words_indexes)

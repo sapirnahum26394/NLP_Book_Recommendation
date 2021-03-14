@@ -36,7 +36,7 @@ class elasticsearch():
             for i in range(len(dictionary)):
                 res = self.client.exists(index="books", id=dictionary[i][0])
                 if res==False:
-                    self.client.index(index="books", id=dictionary[i][0], body={"title": dictionary[i][2],"topics": dictionary[i][1], "synonym": []})
+                    self.client.index(index="books", id=dictionary[i][0], body={"title": dictionary[i][2],"topics": dictionary[i][1], "synonym": [], "similar_books": {}})
         elif mode == "update":
             for i in range(len(dictionary)):
                 self.client.update(index="books", id=dictionary[i][0], body={"doc": {"topics": dictionary[i][1]}})
@@ -69,6 +69,11 @@ class elasticsearch():
         self.client.indices.create(index="synonyms", ignore=400)
         return (self.client.index(index="synonyms", body={"words":synonyms_list}))['_id']
 
+    def update_similar_books(self, mms_id, list):
+        res = self.client.get(index="books",id=mms_id)
+        self.client.update(index="books", id=mms_id, body={"doc": {"similar_books": list}})
+
+
     def update_record_with_indexes(self,mms_id,record_indexes):
         res = self.client.get(index="books",id=mms_id)
         self.client.update(index="books", id=mms_id, body={"doc": {"synonym": record_indexes}})
@@ -100,3 +105,14 @@ class elasticsearch():
         for hit in res['hits']['hits']:
             synonyms.append(hit['_id'])
         return synonyms
+
+    def get_book_topics(self,mms_id):
+        res = self.client.get(index="books", id=mms_id)
+        return res['_source']['topics']
+
+    def get_all_books_ids(self):
+        books = []
+        res = self.client.search(index='books',size=10000)
+        for hit in res['hits']['hits']:
+            books.append(hit['_id'])
+        return books

@@ -20,10 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f46d2689-12d8-4030-bdce-3552f9d7c72a" name="Default Changelist" comment="update">
+      <change afterPath="$PROJECT_DIR$/Rate_books.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Elastic_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/Elastic_search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Expend_synonym_index.py" beforeDir="false" afterPath="$PROJECT_DIR$/Expend_synonym_index.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Find_books.py" beforeDir="false" afterPath="$PROJECT_DIR$/Find_books.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Find_similar.py" beforeDir="false" afterPath="$PROJECT_DIR$/Find_similar.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Normalize_marc_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/Normalize_marc_file.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Topic_Vector_Reduction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Topic_Vector_Reduction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />

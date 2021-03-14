@@ -4,6 +4,7 @@ from Topic_Vector_Reduction import Vector_reduction
 from Normalize_marc_file import normalizeMarc
 from Elastic_search import elasticsearch
 from Expend_synonym_index import expend_synonym_index
+from Rate_books import rate_books
 import os
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
@@ -14,8 +15,9 @@ UPLOAD_FOLDER = 'files'
 ALLOWED_EXTENSIONS = set(['xml'])
 
 app = Flask(__name__)
+app.config['JSON_SORT_KEYS'] = False
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
+rb = rate_books()
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -65,13 +67,14 @@ def uploaded_file(filename):
 
 @app.route("/mms_id")
 def mms_id():
-    try:
-        id = request.args.get('id', default="*", type=int)
-        fb = find_books()
-        res = fb.find_books_by_book_id(id)
-    except:
-        return "Error"
-    return res
+#     try:
+    id = request.args.get('id', default="*", type=int)
+    fb = find_books()
+    res = fb.find_books_by_book_id(id)
+    rated = rb.get_books_by_rate(id,res)
+#     except:
+#         return "Error"
+    return rated
 
 
 @app.route("/reduce")

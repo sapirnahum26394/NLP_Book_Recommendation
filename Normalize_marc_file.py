@@ -60,16 +60,21 @@ class normalizeMarc():
                             fields.append(subfield.text)
                 elif(field.get('tag') == '245'):
                     for subfield in field.findall('subfield'):
-                        title=subfield.text
+                        if subfield.get('code')=='a':
+                                title = subfield.text
+                                if title[-1].isalpha() == False:
+                                    title = title[:-1]
+
 
             if(fields):
                 fields_and_id.append(mms_id)
                 fields_and_id.append(fields)
                 fields_and_id.append(title)
-                self.dictionary=self.dictionary+fields
-                self.dictionary = list(dict.fromkeys(self.dictionary))
+#                 self.dictionary=self.dictionary+fields
+#                 self.dictionary = list(dict.fromkeys(self.dictionary))
                 fields_and_ids.append(fields_and_id)
         return fields_and_ids
+
 
     def normalize_650_fields(self,records_list):
         for record in records_list:
@@ -83,7 +88,7 @@ class normalizeMarc():
                     if word not in final_words_array:
                         if word not in stop_words:
                             final_words_array.append(word)
-
+            self.dictionary=self.dictionary+final_words_array
             record[1] = final_words_array
 
 
@@ -99,9 +104,9 @@ class normalizeMarc():
         cell_value = re.sub("'s", '', cell_value)
         cell_value = re.sub("'", '', cell_value)
         cell_value = re.sub("&", '', cell_value)
-
         return cell_value
 
     def create_word2vec_model(self,dir):
+        print(self.dictionary)
         model = Word2Vec(sentences=self.dictionary, window=5, min_count=1, workers=4)
         model.save(dir+"word2vec.model")
