@@ -52,7 +52,7 @@ class create_report():
                            'Score':scores,
                            'topics':topics,
                            'synonyms':synon})
-        writer = pd.ExcelWriter("report.xlsx", engine='xlsxwriter')
+        writer = pd.ExcelWriter("files/report.xlsx", engine='xlsxwriter')
         df.to_excel(writer, sheet_name=book_id, startrow=0, header=False)
 
         workbook = writer.book
