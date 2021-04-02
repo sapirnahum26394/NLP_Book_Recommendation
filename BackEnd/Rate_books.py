@@ -41,19 +41,17 @@ class rate_books():
         es = elasticsearch()
         topics_list1 = es.get_book_topics(book1)
         topics_list2 = es.get_book_topics(book2)
-        score = 0
-        threshold = 0.50     # if needed
-        counter = 0
+        score = {}
+        # threshold = 0.50     # if needed
         for key in topics_list1:
+            score[key] = 0
             for word in topics_list2:
                 x = wordnet.synsets(key)
                 y = wordnet.synsets(word)
                 if not x or not y:
                     continue
                 s = x[0].wup_similarity(y[0])
-                if s is not None and s>threshold:
-                    counter += 1
-                    score += s
-        if counter!=0:
-            score=score/counter
-        return score
+                if s is not None and s > score[key]:
+                    score[key] = s
+
+        return sum(score.values())/len(score.values())
