@@ -17,6 +17,7 @@ from Topic_Vector_Reduction import Vector_reduction
 from Find_similar import Find_similar_topics
 from Elastic_search import elasticsearch
 from Expend_synonym_index import expend_synonym_index
+from Create_report import create_report
 from Find_books import find_books
 from Rate_books import rate_books
 import time
@@ -34,21 +35,21 @@ Main
 ===================================================================================================
 """
 if __name__ == '__main__':
-    # b1=["god","bible","book","holy","religion","christian"]
-    # b2=["god","christ","idol","jesus"]
-    # b3=["god","music","apollo","Egyptian","Greek","Roman"]
-    # score=0
-    # for key in b3:
-    #     for word in b2:
-    #         x = wordnet.synsets(word)
-    #         y = wordnet.synsets(key)
-    #         if not x or not y:
-    #             continue
-    #         s = x[0].wup_similarity(y[0])
-    #         score+=s
-    #         print(key, ", ", word, " = ", s)
-    # size=len(b1)+len(b2)
-    # print("Score: ",score/size)
+    b1=["god","bible","book","holy","religion","christian"]
+    b2=["god","christ","idol","jesus"]
+    b3=["god","music","apollo","Egyptian","Greek","Roman"]
+    score=0
+    for key in b1:
+        for word in b3:
+            x = wordnet.synsets(word)
+            y = wordnet.synsets(key)
+            if not x or not y:
+                continue
+            s = x[0].wup_similarity(y[0])
+            score+=s
+            print(key, ", ", word, " = ", s)
+    size=len(b1)+len(b2)
+    print("Score: ",score/size)
 
 
     # XML_file = "files/bib_records.xml"
@@ -83,6 +84,8 @@ if __name__ == '__main__':
     #
     #
     # fb = find_books()
-    # res = fb.find_books_by_book_id(991001088454304574)
-    # rated = rb.get_books_by_rate(991001088454304574,res)
-    import routes
+    # res,books_names = fb.find_books_by_book_id(991001088454304574)
+    # rated, ids = rb.get_books_by_rate(991001088454304574, res, books_names)
+    # cr = create_report()
+    # cr.create_excel(ids, str(991001088454304574))
+    # import routes

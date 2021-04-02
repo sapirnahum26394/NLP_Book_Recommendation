@@ -82,6 +82,13 @@ class elasticsearch():
         res = self.client.get(index="books", id=mms_id)
         return res['_source']['synonym']
 
+    def get_book_synonym_lists(self,mms_id):
+        res = self.get_book_synonym(mms_id)
+        lists=[]
+        for hit in res:
+            lists.append(self.client.get(index="synonyms", id=hit)['_source']['words'])
+        return lists
+
     def get_books_by_common_synonym(self,synonym,lamda):
         count = {}
         for i in synonym:
@@ -116,3 +123,7 @@ class elasticsearch():
         for hit in res['hits']['hits']:
             books.append(hit['_id'])
         return books
+
+    def get_book_title(self,mms_id):
+        res = self.client.get(index="books", id=mms_id)
+        return res['_source']['title']

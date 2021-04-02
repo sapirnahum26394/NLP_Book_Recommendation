@@ -9,7 +9,7 @@ import os
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
-import json
+from Create_report import create_report
 
 UPLOAD_FOLDER = 'files'
 ALLOWED_EXTENSIONS = set(['xml'])
@@ -67,13 +67,15 @@ def uploaded_file(filename):
 
 @app.route("/mms_id")
 def mms_id():
-#     try:
+    # try:
     id = request.args.get('id', default="*", type=int)
     fb = find_books()
     res,books_names = fb.find_books_by_book_id(id)
-    rated = rb.get_books_by_rate(id,res,books_names)
-#     except:
-#         return "Error"
+    rated,ids = rb.get_books_by_rate(id,res,books_names)
+    cr=create_report()
+    cr.create_excel(ids,str(id))
+    # except:
+    #     return "Error"
     return rated
 
 

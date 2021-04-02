@@ -27,13 +27,15 @@ class rate_books():
     """
 
     def get_books_by_rate(self,original,list,books_names):
-        print(books_names)
-        new_list = {}
+        new_list_names = {}
+        new_list_ids = {}
         for book in list:
-            new_list[books_names[book]] = self.get_rate(original,book)
-        sorted_dict = dict(sorted(new_list.items(), key=lambda item: item[1],reverse = True))
-        print(sorted_dict)
-        return sorted_dict
+            rate = self.get_rate(original,book)
+            new_list_names[books_names[book]] = rate
+            new_list_ids[book] = rate
+        sorted_dict_names = dict(sorted(new_list_names.items(), key=lambda item: item[1],reverse = True))
+        sorted_dict_ids = dict(sorted(new_list_ids.items(), key=lambda item: item[1],reverse = True))
+        return sorted_dict_names,sorted_dict_ids
 
     def get_rate(self,book1,book2):
         es = elasticsearch()
