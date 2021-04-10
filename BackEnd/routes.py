@@ -1,15 +1,15 @@
-from Find_books import find_books
+from classes.Find_books import find_books
 from Find_similar import Find_similar_topics
 from Topic_Vector_Reduction import Vector_reduction
-from Normalize_marc_file import normalizeMarc
-from Elastic_search import elasticsearch
-from Expend_synonym_index import expend_synonym_index
+from classes.Normalize_marc_file import normalizeMarc
+from classes.Elastic_search import elasticsearch
+from classes.Expend_synonym_index import expend_synonym_index
 from Rate_books import rate_books
 import os
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
-from Create_report import create_report
+from classes.Create_report import create_report
 
 UPLOAD_FOLDER = 'files'
 ALLOWED_EXTENSIONS = set(['xml'])

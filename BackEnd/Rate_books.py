@@ -12,12 +12,7 @@ Shmuel Eliasyan
 Imports
 ===================================================================================================
 """
-from Find_similar import Find_similar_topics
-from Elastic_search import elasticsearch
-import spacy
-from scipy import spatial
-import collections
-from gensim.models import Word2Vec
+from classes.Elastic_search import elasticsearch
 from nltk.corpus import wordnet
 class rate_books():
     """

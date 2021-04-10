@@ -12,7 +12,7 @@ Shmuel Eliasyan
 Imports
 ===================================================================================================
 """
-import nltk
+# import nltk
 from nltk.corpus import wordnet
 import requests
 
@@ -37,7 +37,6 @@ class Vector_reduction():
     """
 
     def normalize_words_vector_wordnet(self,words_vector):
-        nltk.download('wordnet')
         expanded_words_vector = []
         words_vector_copy = words_vector.copy()
         for word in words_vector_copy:
