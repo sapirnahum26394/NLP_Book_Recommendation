@@ -98,7 +98,7 @@ class normalizeMarc():
         cell_value = cell_value.lower()
         cell_value = re.sub(r'\d', ' ', cell_value)
         cell_value = re.sub(r'\s+', ' ', cell_value)
-        cell_value = re.sub(r"\.", '', cell_value)
+        cell_value = re.sub(r"", '', cell_value)
         cell_value = re.sub(r'\-', ' ', cell_value)
         cell_value = re.sub(r'\(', '',cell_value)
         cell_value = re.sub(r'\)', '', cell_value)

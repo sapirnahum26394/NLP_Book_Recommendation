@@ -12,9 +12,9 @@ Shmuel Eliasyan
 Imports
 ===================================================================================================
 """
-from classes.Normalize_marc_file import normalizeMarc
-from classes.Elastic_search import elasticsearch
-from classes.Expend_synonym_index import expend_synonym_index
+from BackEnd.classes.Normalize_marc_file import normalizeMarc
+from BackEnd.classes.Elastic_search import elasticsearch
+from BackEnd.classes.Expend_synonym_index import expend_synonym_index
 from Rate_books import rate_books
 from Number_batch import number_batch
 from flask import Flask
