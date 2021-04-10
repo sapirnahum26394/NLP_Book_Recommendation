@@ -35,18 +35,19 @@ class elasticsearch():
             self.client.indices.create(index="books", ignore=400)
             for i in range(len(dictionary)):
                 res = self.client.exists(index="books", id=dictionary[i][0])
-                if res==False:
-                    self.client.index(index="books", id=dictionary[i][0], body={"title": dictionary[i][2],"topics": dictionary[i][1], "synonym": [], "similar_books": {}})
-        elif mode == "update":
-            for i in range(len(dictionary)):
-                self.client.update(index="books", id=dictionary[i][0], body={"doc": {"topics": dictionary[i][1]}})
+                if res:
+                    self.delete_record("books",record_id=dictionary[i][0])
+                self.client.index(index="books", id=dictionary[i][0], body={"title": dictionary[i][1],"original_topics": dictionary[i][2],"reduced_topics": dictionary[i][3], "synonym": []})
+
+    def delete_record(self,index, record_id):
+        self.client.delete(index=index,id=record_id, ignore=[400, 404])
 
     def delete_index(self,index):
         self.client.indices.delete(index=index, ignore=[400, 404])
 
     def find_books(self, token):
         books_id=[]
-        res = self.client.search(index="books",body={"query": {"match": {"topics": token}}}, size=1000)
+        res = self.client.search(index="books",body={"query": {"match": {"reduced_topics": token}}}, size=1000)
         if res['hits']['total']['value'] == 0:
             return -1
         else:
@@ -115,7 +116,7 @@ class elasticsearch():
 
     def get_book_topics(self,mms_id):
         res = self.client.get(index="books", id=mms_id)
-        return res['_source']['topics']
+        return res['_source']['reduced_topics']
 
     def get_all_books_ids(self):
         books = []

@@ -12,7 +12,7 @@ Shmuel Eliasyan
 Imports
 ===================================================================================================
 """
-from Elastic_search import elasticsearch
+from classes.Elastic_search import elasticsearch
 import pandas as pd
 
 
@@ -54,7 +54,7 @@ class create_report():
                            'synonyms':synon})
         print(df)
 
-        writer = pd.ExcelWriter("files/report.xlsx", engine='xlsxwriter')
+        writer = pd.ExcelWriter("../BackEnd/files/report.xlsx", engine='xlsxwriter')
         df.to_excel(writer, sheet_name=book_id, startrow=1, header=False)
 
         workbook = writer.book

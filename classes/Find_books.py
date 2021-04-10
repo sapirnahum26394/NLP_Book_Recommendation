@@ -12,7 +12,7 @@ Shmuel Eliasyan
 Imports
 ===================================================================================================
 """
-from Elastic_search import elasticsearch
+from classes.Elastic_search import elasticsearch
 
 
 
