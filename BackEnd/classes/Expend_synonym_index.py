@@ -13,7 +13,7 @@ Imports
 ===================================================================================================
 """
 from BackEnd.classes.Elastic_search import elasticsearch
-from BackEnd.Find_similar import Find_similar_topics
+from BackEnd.classes.Find_similar import Find_similar_topics
 
 
 class expend_synonym_index():

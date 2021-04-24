@@ -6,6 +6,7 @@ Authors:
 Sapir Nahum
 Shmuel Eliasyan
 """
+from BackEnd.classes.Find_books import find_books
 
 """
 ===================================================================================================
@@ -52,11 +53,14 @@ Main
 """
 if __name__ == '__main__':
 
-    main()
-    #
-    # fb = find_books()
-    # res,books_names = fb.find_books_by_book_id(991000001799704574)
-    # rated, ids = rb.get_books_by_rate(991000001799704574, res, books_names)
+    # main()
+
+    score = rb.get_rate(991000001799704574,991000001799704574)
+    # print(score)
+    fb = find_books()
+    res,books_names = fb.find_books_by_book_id(991000001799704574)
+    rated, ids = rb.get_books_by_rate(991000001799704574, res, books_names)
+    print(rated)
     # cr = create_report()
     # cr.create_excel(ids, str(991000001799704574))
-    # # import routes
+    # import routes

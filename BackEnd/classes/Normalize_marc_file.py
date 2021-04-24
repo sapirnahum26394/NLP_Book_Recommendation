@@ -6,7 +6,7 @@ Authors:
 Sapir Nahum
 Shmuel Eliasyan
 """
-from BackEnd.Topic_Vector_Reduction import Vector_reduction
+from BackEnd.classes.Topic_Vector_Reduction import Vector_reduction
 
 """
 ===================================================================================================
@@ -97,13 +97,14 @@ class normalizeMarc():
     def normalize_single_array_cell(self,cell_value):
         cell_value = cell_value.lower()
         cell_value = re.sub(r'\d', ' ', cell_value)
-        cell_value = re.sub(r'\s+', ' ', cell_value)
-        cell_value = re.sub(r"", '', cell_value)
-        cell_value = re.sub(r'\-', ' ', cell_value)
-        cell_value = re.sub(r'\(', '',cell_value)
-        cell_value = re.sub(r'\)', '', cell_value)
-        cell_value = re.sub(r'\,', '', cell_value)
-        cell_value = re.sub("'s", '', cell_value)
-        cell_value = re.sub("'", '', cell_value)
-        cell_value = re.sub("&", '', cell_value)
+        cell_value = re.sub(r'\s', ' ', cell_value)
+        cell_value = re.sub(r'\W', ' ', cell_value)
+        # cell_value = re.sub(r"", '', cell_value)
+        # cell_value = re.sub(r'\-', ' ', cell_value)
+        # cell_value = re.sub(r'\(', '',cell_value)
+        # cell_value = re.sub(r'\)', '', cell_value)
+        # cell_value = re.sub(r'\,', '', cell_value)
+        # cell_value = re.sub("'s", '', cell_value)
+        # cell_value = re.sub("'", '', cell_value)
+        # cell_value = re.sub("&", '', cell_value)
         return cell_value

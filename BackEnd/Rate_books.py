@@ -13,7 +13,7 @@ Imports
 ===================================================================================================
 """
 from BackEnd.classes.Elastic_search import elasticsearch
-from nltk.corpus import wordnet
+from Number_batch import number_batch
 class rate_books():
     """
     ===================================================================================================
@@ -21,6 +21,9 @@ class rate_books():
     ===================================================================================================
     """
 
+    def __init__(self):
+        self.nb = number_batch()
+        self.es = elasticsearch()
     def get_books_by_rate(self,original,list,books_names):
         new_list_names = {}
         new_list_ids = {}
@@ -33,20 +36,23 @@ class rate_books():
         return sorted_dict_names,sorted_dict_ids
 
     def get_rate(self,book1,book2):
-        es = elasticsearch()
-        topics_list1 = es.get_book_topics(book1)
-        topics_list2 = es.get_book_topics(book2)
+        topics_list1 = self.es.get_book_topics(book1)
+        topics_list2 = self.es.get_book_topics(book2)
         score = {}
+        print(topics_list1)
+        print(topics_list2)
+        count = 0
         # threshold = 0.50     # if needed
         for key in topics_list1:
-            score[key] = 0
             for word in topics_list2:
-                x = wordnet.synsets(key)
-                y = wordnet.synsets(word)
-                if not x or not y:
-                    continue
-                s = x[0].wup_similarity(y[0])
-                if s is not None and s > score[key]:
-                    score[key] = s
-
-        return sum(score.values())/len(score.values())
+                score[word] = 0
+                try:
+                    s = self.nb.similarity_score(key,word)
+                except:
+                    s = 0
+                # print(key,word+" = "+str(s))
+                if s is not None and s > score[word]:
+                    score[word] = s
+        print(score)
+        print(sum(score.values())/len(score))
+        return sum(score.values())/len(score)
