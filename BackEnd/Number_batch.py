@@ -50,7 +50,7 @@ class number_batch():
                 binary=False,
                 unicode_errors='ignore'
             )
-            self.number_batch_path.save("files/number_batch/numberbatch.model")
+            self.number_batch_model.save("files/number_batch/numberbatch.model")
 
     def find_similar_words(self,term,number_of_words):
         try:

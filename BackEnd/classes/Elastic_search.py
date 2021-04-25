@@ -32,7 +32,7 @@ class elasticsearch():
     """
     def upload_dictionary(self,dictionary,mode):
         if mode == "create":
-            self.client.indices.create(index="books", ignore=400)
+            self.client.indices.create(index="books", ignore=[400, 404])
             for i in range(len(dictionary)):
                 res = self.client.exists(index="books", id=dictionary[i][0])
                 if res:
@@ -77,7 +77,7 @@ class elasticsearch():
 
     def update_record_with_indexes(self,mms_id,record_indexes):
         res = self.client.get(index="books",id=mms_id)
-        self.client.update(index="books", id=mms_id, body={"doc": {"synonym": record_indexes}})
+        self.client.update(index="books", id=mms_id, body={"doc": {"synonym": record_indexes}},ignore=[400, 404])
 
     def get_book_synonym(self,mms_id):
         res = self.client.get(index="books", id=mms_id)
