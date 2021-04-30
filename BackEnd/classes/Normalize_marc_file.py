@@ -18,8 +18,8 @@ from gensim.models import Word2Vec
 import shutil
 import os
 import re
-# import nltk
-# nltk.download('stopwords')
+#import nltk
+#nltk.download('stopwords')
 from nltk.corpus import stopwords
 stop_words = set(stopwords.words('english'))
 

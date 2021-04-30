@@ -21,8 +21,8 @@ from Number_batch import number_batch
 from flask import Flask
 app=Flask(__name__)
 rb = rate_books()
-# import nltk
-# nltk.download('wordnet')
+#import nltk
+#nltk.download('wordnet')
 
 
 def main():
@@ -34,7 +34,7 @@ def main():
     record_list = data.records_list
     # print(data.dictionary)
     nb = number_batch()
-    # vectors = nb.getVectorsFromWords(data.dictionary)
+    #vectors = nb.getVectorsFromWords(data.dictionary)
     # print(vectors)
 
     # Elastic search - uploading the record list to local elastic search
@@ -53,14 +53,14 @@ Main
 """
 if __name__ == '__main__':
 
-    # main()
+    main()
 
-    score = rb.get_rate(991000001799704574,991000001799704574)
+    # score = rb.get_rate(991000001799704574,991000001799704574)
     # print(score)
-    fb = find_books()
-    res,books_names = fb.find_books_by_book_id(991000001799704574)
-    rated, ids = rb.get_books_by_rate(991000001799704574, res, books_names)
-    print(rated)
+    # fb = find_books()
+    # res,books_names = fb.find_books_by_book_id(991000015309704574)
+    # rated, ids = rb.get_books_by_rate(991000015309704574, res, books_names)
+    # print(rated)
     # cr = create_report()
     # cr.create_excel(ids, str(991000001799704574))
-    # import routes
+    import routes

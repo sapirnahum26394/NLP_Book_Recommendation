@@ -13,7 +13,10 @@ Imports
 ===================================================================================================
 """
 from elasticsearch import Elasticsearch
-from elasticsearch_dsl  import Search
+from elasticsearch_dsl import Search, connections
+
+connections.add_connection('default', Elasticsearch)
+
 
 class elasticsearch():
     """
@@ -24,7 +27,6 @@ class elasticsearch():
     def __init__(self):
         self.client = Elasticsearch()
         self.s = Search(using=self.client)
-
     """
     ===================================================================================================
     Functions
@@ -77,7 +79,7 @@ class elasticsearch():
 
     def update_record_with_indexes(self,mms_id,record_indexes):
         res = self.client.get(index="books",id=mms_id)
-        self.client.update(index="books", id=mms_id, body={"doc": {"synonym": record_indexes}},ignore=[400, 404])
+        self.client.update(index="books", id=mms_id, body={"doc": {"synonym": record_indexes}})
 
     def get_book_synonym(self,mms_id):
         res = self.client.get(index="books", id=mms_id)

@@ -35,7 +35,6 @@ class find_books():
         synonym = self.es.get_book_synonym(mms_id)
         if len(synonym)<lamda:
             lamda = len(synonym)
-#         print(synonym)
         synonym = self.es.get_books_by_common_synonym(synonym,lamda)
         del synonym[str(mms_id)]
         books = []

@@ -12,7 +12,7 @@ Shmuel Eliasyan
 Imports
 ===================================================================================================
 """
-# import nltk
+import nltk
 from nltk.corpus import wordnet
 import requests
 

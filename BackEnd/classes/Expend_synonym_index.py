@@ -35,7 +35,7 @@ class expend_synonym_index():
         similar = Find_similar_topics()
         for record in records_list:
             words_indexes = []
-            for word in record[1]:
+            for word in record[3]:
                 token_index = elastic.find_token_index(word)
                 if token_index == -1:
                     synonyms = similar.get_synonyms_list(word)
