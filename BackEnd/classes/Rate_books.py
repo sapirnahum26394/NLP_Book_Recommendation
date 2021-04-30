@@ -13,7 +13,7 @@ Imports
 ===================================================================================================
 """
 from BackEnd.classes.Elastic_search import elasticsearch
-from Number_batch import number_batch
+from BackEnd.classes.Number_batch import number_batch
 class rate_books():
     """
     ===================================================================================================
@@ -39,19 +39,19 @@ class rate_books():
         topics_list1 = self.es.get_book_topics(book1)
         topics_list2 = self.es.get_book_topics(book2)
         score = {}
-        print(topics_list1)
-        print(topics_list2)
+        #print(topics_list1)
+        #print(topics_list2)
         count = 0
         # threshold = 0.50     # if needed
         for key in topics_list1:
             for word in topics_list2:
-                score[word] = 0
-                try:
-                    s = self.nb.similarity_score(key,word)
-                except:
-                    s = 0
-                # print(key,word+" = "+str(s))
-                if s is not None and s > score[word]:
+                if word not in score:
+                    score[word]=0
+
+                s = float(self.nb.similarity_score(key,word))
+                print(key,word+" = "+str(s)+" "+str(score[word]))
+                if s > score[word]:
+                    print()
                     score[word] = s
         print(score)
         print(sum(score.values())/len(score))

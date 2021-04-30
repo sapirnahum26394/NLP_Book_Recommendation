@@ -6,18 +6,19 @@ Authors:
 Sapir Nahum
 Shmuel Eliasyan
 """
-from BackEnd.classes.Find_books import find_books
 
 """
 ===================================================================================================
 Imports
 ===================================================================================================
 """
+from BackEnd.classes.Find_books import find_books
+from BackEnd.classes.Create_report import create_report
 from BackEnd.classes.Normalize_marc_file import normalizeMarc
 from BackEnd.classes.Elastic_search import elasticsearch
 from BackEnd.classes.Expend_synonym_index import expend_synonym_index
-from Rate_books import rate_books
-from Number_batch import number_batch
+from BackEnd.classes.Rate_books import rate_books
+from BackEnd.classes.Number_batch import number_batch
 from flask import Flask
 app=Flask(__name__)
 rb = rate_books()
@@ -53,14 +54,14 @@ Main
 """
 if __name__ == '__main__':
 
-    main()
+    # main()
 
     # score = rb.get_rate(991000001799704574,991000001799704574)
     # print(score)
-    # fb = find_books()
-    # res,books_names = fb.find_books_by_book_id(991000015309704574)
-    # rated, ids = rb.get_books_by_rate(991000015309704574, res, books_names)
-    # print(rated)
-    # cr = create_report()
-    # cr.create_excel(ids, str(991000001799704574))
-    import routes
+    fb = find_books()
+    res,books_names = fb.find_books_by_book_id(991000015309704574)
+    rated, ids = rb.get_books_by_rate(991000015309704574, res, books_names)
+    print(rated)
+    cr = create_report()
+    cr.create_excel(ids, str(991000015309704574))
+    #import BackEnd.classes.routes

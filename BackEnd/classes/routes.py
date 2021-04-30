@@ -4,7 +4,7 @@ from BackEnd.classes.Topic_Vector_Reduction import Vector_reduction
 from BackEnd.classes.Normalize_marc_file import normalizeMarc
 from BackEnd.classes.Elastic_search import elasticsearch
 from BackEnd.classes.Expend_synonym_index import expend_synonym_index
-from Rate_books import rate_books
+from BackEnd.classes.Rate_books import rate_books
 import os
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
@@ -67,7 +67,7 @@ def uploaded_file(filename):
 
 @app.route("/mms_id")
 def mms_id():
-    # try:
+    #try:
     id = request.args.get('id', default="*", type=int)
     fb = find_books()
     res,books_names = fb.find_books_by_book_id(id)

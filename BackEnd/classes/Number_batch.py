@@ -24,7 +24,7 @@ class number_batch():
     """
 
     def __init__(self):
-        self.number_batch_path = "files/number_batch/numberbatch-en.txt"
+        self.number_batch_path = "../files/number_batch/numberbatch-en.txt"
         self.number_batch_model = ""
         self.load_model()
         # English-specific stopword handling
@@ -62,5 +62,9 @@ class number_batch():
         except:
             print("Error with model in 'find_similar_words'")
 
+
     def similarity_score(self,term1,term2):
-        return self.number_batch_model.similarity(term1, term2)
+        try:
+            return self.number_batch_model.similarity(term1, term2)
+        except:
+            return 0
