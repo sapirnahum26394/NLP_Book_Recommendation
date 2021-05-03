@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 })
 export class BooksCatalogComponent {
 
+  bookId: string;
+
   constructor(private router: Router) { }
   
   imageObject: Array<object> = [{
@@ -59,5 +61,9 @@ export class BooksCatalogComponent {
 
   onImageClick(imageId){
     this.router.navigateByUrl('/book-view/' + imageId);
+  }
+
+  iconClicked(){
+    this.router.navigateByUrl('/book-view/' + this.bookId);
   }
 }
