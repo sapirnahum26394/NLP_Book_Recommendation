@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppConstants } from '../app-constants';
 
 @Component({
   selector: 'app-find-similar-books',
@@ -15,7 +16,7 @@ export class FindSimilarBooksComponent implements OnInit {
 
   afuConfig = {
     uploadAPI: {
-      url:"https://slack.com/api/files.upload"
+      url: AppConstants.NLP_REST_BASE + '/addNewBook'
     },
     replaceTexts: {
       selectFileBtn: 'Select MARC21 File',
