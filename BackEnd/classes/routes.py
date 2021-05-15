@@ -19,9 +19,11 @@ app.config['JSON_SORT_KEYS'] = False
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 rb = rate_books()
 
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -39,7 +41,7 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',filename=filename))
+            return redirect(url_for('uploaded_file', filename=filename))
     return '''
     <!doctype html>
     <title>Upload new File</title>
@@ -49,6 +51,7 @@ def upload_file():
       <input type=submit value=Upload>
     </form>
     '''
+
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -65,15 +68,16 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 
+
 @app.route("/mms_id")
 def mms_id():
-    #try:
+    # try:
     id = request.args.get('id', default="*", type=int)
     fb = find_books()
-    res,books_names = fb.find_books_by_book_id(id)
-    rated,ids = rb.get_books_by_rate(id,res,books_names)
-    cr=create_report()
-    cr.create_excel(ids,str(id))
+    res, books_names = fb.find_books_by_book_id(id)
+    rated, ids = rb.get_books_by_rate(id, res, books_names)
+    cr = create_report()
+    cr.create_excel(ids, str(id))
     # except:
     #     return "Error"
     return rated
@@ -102,12 +106,9 @@ def expand():
     return str(list)
 
 
-
-
 @app.errorhandler(404)
 def not_found(e):
     return "{}"
 
 
-
-app.run(port=8080)
+app.run(host='192.168.56.99', port=8080)

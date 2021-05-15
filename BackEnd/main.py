@@ -54,7 +54,7 @@ Main
 """
 if __name__ == '__main__':
 
-    # main()
+    main()
 
     # score = rb.get_rate(991000001799704574,991000001799704574)
     # print(score)
@@ -64,4 +64,4 @@ if __name__ == '__main__':
     print(rated)
     cr = create_report()
     cr.create_excel(ids, str(991000015309704574))
-    #import BackEnd.classes.routes
+    import BackEnd.classes.routes
