@@ -26,6 +26,7 @@ rb = rate_books()
 #nltk.download('wordnet')
 
 
+
 def main():
     # upload this file to elastic search data base
     XML_file = "files/marc_files/bib_records.xml"
@@ -33,7 +34,8 @@ def main():
     # Normalize marc(xml) file and create a record list containing mms_id and list of topics for each record
     data = normalizeMarc(XML_file)
     record_list = data.records_list
-    # print(data.dictionary)
+    print(record_list)
+    print(routes.recordListToJson(record_list))
     nb = number_batch()
     #vectors = nb.getVectorsFromWords(data.dictionary)
     # print(vectors)
@@ -58,10 +60,10 @@ if __name__ == '__main__':
 
     # score = rb.get_rate(991000001799704574,991000001799704574)
     # print(score)
-    fb = find_books()
-    res,books_names = fb.find_books_by_book_id(991000015309704574)
-    rated, ids = rb.get_books_by_rate(991000015309704574, res, books_names)
-    print(rated)
-    cr = create_report()
-    cr.create_excel(ids, str(991000015309704574))
-    #import BackEnd.classes.routes
+    # fb = find_books()
+    # res,books_names = fb.find_books_by_book_id(991000015309704574)
+    # rated, ids = rb.get_books_by_rate(991000015309704574, res, books_names)
+    # print(rated)
+    # cr = create_report()
+    # cr.create_excel(ids, str(991000015309704574))
+    import BackEnd.classes.routes as routes

@@ -46,31 +46,43 @@ class normalizeMarc():
         fields_and_ids = []
         for record in xml_root:
             mms_id = ''
-            fields = []
+            topics = []
             fields_and_id = []
+            description=''
+            isbn=''
+            title=''
             for field in record.findall('controlfield'):
                 if(field.get('tag') == '001'):
                     mms_id = field.text
                     break
-
             for field in record.findall('datafield'):
                 if(field.get('tag') == '650'):
                     for subfield in field.findall('subfield'):
                         if subfield.get('code')=='a':
-                            fields.append(subfield.text)
+                            topics.append(subfield.text)
                 elif(field.get('tag') == '245'):
                     for subfield in field.findall('subfield'):
                         if subfield.get('code')=='a':
                                 title = subfield.text
                                 if title[-1].isalpha() == False:
                                     title = title[:-1]
+                elif(field.get('tag') == '020' and isbn==""):
+                    for subfield in field.findall('subfield'):
+                        if subfield.get('code')=='a':
+                            isbn = subfield.text.split(" ")[0]
+                elif(field.get('tag') == '520'):
+                    for subfield in field.findall('subfield'):
+                        if subfield.get('code')=='a':
+                            description = subfield.text
 
-
-            if(fields):
+            if(topics):
                 fields_and_id.append(mms_id)
                 fields_and_id.append(title)
-                fields_and_id.append(fields)
-                fields_and_id.append(self.reduceListOfTopics(self.normalize_650_fields(fields)))
+                fields_and_id.append(topics)
+                reduced=self.reduceListOfTopics(self.normalize_650_fields(topics))
+                fields_and_id.append(reduced)
+                fields_and_id.append(description)
+                fields_and_id.append(isbn)
                 fields_and_ids.append(fields_and_id)
         return fields_and_ids
 
@@ -99,12 +111,4 @@ class normalizeMarc():
         cell_value = re.sub(r'\d', ' ', cell_value)
         cell_value = re.sub(r'\s', ' ', cell_value)
         cell_value = re.sub(r'\W', ' ', cell_value)
-        # cell_value = re.sub(r"", '', cell_value)
-        # cell_value = re.sub(r'\-', ' ', cell_value)
-        # cell_value = re.sub(r'\(', '',cell_value)
-        # cell_value = re.sub(r'\)', '', cell_value)
-        # cell_value = re.sub(r'\,', '', cell_value)
-        # cell_value = re.sub("'s", '', cell_value)
-        # cell_value = re.sub("'", '', cell_value)
-        # cell_value = re.sub("&", '', cell_value)
         return cell_value
