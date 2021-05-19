@@ -39,13 +39,13 @@ class create_report():
         ids.append(book_id)
         scores.append("-")
         names.append(self.es.get_book_title(book_id))
-        topics.append(self.es.get_book_topics(book_id))
+        topics.append(self.es.get_book_reduced_topics(book_id))
         synon.append(self.es.get_book_synonym(book_id))
         for book in sorted_dict:
             ids.append(book)
             scores.append(sorted_dict[book])
             names.append(self.es.get_book_title(book))
-            topics.append(self.es.get_book_topics(book))
+            topics.append(self.es.get_book_reduced_topics(book))
             synon.append(self.es.get_book_synonym_lists(book))
         df = pd.DataFrame({'Book ID':ids,
                            'Title':names,

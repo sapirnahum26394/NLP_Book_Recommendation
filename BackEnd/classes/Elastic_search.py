@@ -39,7 +39,8 @@ class elasticsearch():
                 res = self.client.exists(index="books", id=dictionary[i][0])
                 if res:
                     self.delete_record("books",record_id=dictionary[i][0])
-                self.client.index(index="books", id=dictionary[i][0], body={"title": dictionary[i][1],"original_topics": dictionary[i][2],"reduced_topics": dictionary[i][3], "synonym": []})
+                self.client.index(index="books", id=dictionary[i][0], body={"title": dictionary[i][1],"original_topics":
+                    dictionary[i][2],"reduced_topics": dictionary[i][3],"description":dictionary[i][4],"isbn":dictionary[i][5],"synonym": []})
 
     def delete_record(self,index, record_id):
         self.client.delete(index=index,id=record_id, ignore=[400, 404])
@@ -116,9 +117,13 @@ class elasticsearch():
             synonyms.append(hit['_id'])
         return synonyms
 
-    def get_book_topics(self,mms_id):
+    def get_book_reduced_topics(self,mms_id):
         res = self.client.get(index="books", id=mms_id)
         return res['_source']['reduced_topics']
+
+    def get_book_original_topics(self, mms_id):
+        res = self.client.get(index="books", id=mms_id)
+        return res['_source']['original_topics']
 
     def get_all_books_ids(self):
         books = []
@@ -130,3 +135,7 @@ class elasticsearch():
     def get_book_title(self,mms_id):
         res = self.client.get(index="books", id=mms_id)
         return res['_source']['title']
+
+    def get_book_description(self,mms_id):
+        res = self.client.get(index="books", id = mms_id)
+        return res['_source']['description']

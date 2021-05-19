@@ -19,6 +19,9 @@ import { BooksCatalogComponent } from './books-catalog/books-catalog.component';
 import { MatButtonModule } from '@angular/material/button';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { BookViewComponent } from './book-view/book-view.component';
+import { MatIconModule } from '@angular/material/icon'
+import { FormsModule } from '@angular/forms';
+import { BlockUIModule } from 'ng-block-ui';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,10 @@ import { BookViewComponent } from './book-view/book-view.component';
     BrowserAnimationsModule,
     MatListModule,
     MatButtonModule,
-    NgImageSliderModule
+    NgImageSliderModule,
+    MatIconModule,
+    FormsModule,
+    BlockUIModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

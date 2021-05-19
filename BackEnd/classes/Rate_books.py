@@ -36,11 +36,10 @@ class rate_books():
         return sorted_dict_names,sorted_dict_ids
 
     def get_rate(self,book1,book2):
-        topics_list1 = self.es.get_book_topics(book1)
-        topics_list2 = self.es.get_book_topics(book2)
+        topics_list1 = self.es.get_book_reduced_topics(book1)
+        topics_list2 = self.es.get_book_reduced_topics(book2)
         score = {}
-        #print(topics_list1)
-        #print(topics_list2)
+
         count = 0
         # threshold = 0.50     # if needed
         for key in topics_list1:
@@ -49,10 +48,7 @@ class rate_books():
                     score[word]=0
 
                 s = float(self.nb.similarity_score(key,word))
-                print(key,word+" = "+str(s)+" "+str(score[word]))
+                # print(key,word+" = "+str(s)+" "+str(score[word]))
                 if s > score[word]:
-                    print()
                     score[word] = s
-        print(score)
-        print(sum(score.values())/len(score))
-        return sum(score.values())/len(score)
+        return int((sum(score.values())/len(score))*100)

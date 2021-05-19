@@ -7,7 +7,7 @@
     <h1>NLP Books Recommendations</h1>  
     <div class="search-bar-container"> 
         <label>
-            <input type="text" required>
+            <input type="text" [(ngModel)]="bookId" required>
             <ul>
             <li s>s</li>
             <li e>e</li>
@@ -17,6 +17,8 @@
             <li h>h</li>
             </ul>
         </label>
+        <mat-icon style="cursor: pointer" (click)="iconClicked()">search</mat-icon>
     </div>
+    
     <ng-image-slider (imageClick)="onImageClick($event)" [imagePopup]="false" [infinite]="true" [autoSlide]="3" [images]="imageObject" [imageSize]="{width: '300px', height: '300px', space: 3}" #nav></ng-image-slider>
 </div>
