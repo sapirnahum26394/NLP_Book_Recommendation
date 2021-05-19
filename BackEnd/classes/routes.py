@@ -6,7 +6,7 @@ from BackEnd.classes.Elastic_search import elasticsearch
 from BackEnd.classes.Expend_synonym_index import expend_synonym_index
 from BackEnd.classes.Rate_books import rate_books
 import os
-from flask import Flask, flash, request, redirect, url_for
+from flask import Flask, flash, request, redirect, url_for, Response
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from BackEnd.classes.Create_report import create_report
@@ -46,17 +46,20 @@ def uploaded_file(filename):
     record_list = data.records_list
     es.upload_dictionary(record_list, "create")
     expend_synonym_index(record_list)
-    return recordListToJson(record_list)
-
+    resp = Response(recordListToJson(record_list))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 @app.route("/mms_id")
 def mms_id():
     id = request.args.get('id', default="*", type=int)
     res,books_names = fb.find_books_by_book_id(id)
-    rated,ids = rb.get_books_by_rate(id,res,books_names)
-    cr.create_excel(ids, str(id))
-    return mmsToJson(rated, id)
+    names,rated = rb.get_books_by_rate(id, res, books_names)
+    cr.create_excel(rated, str(id))
 
+    resp = Response(mmsToJson(names,rated, id))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 @app.route("/reduce", methods=['POST'])
 def reduce():
@@ -75,7 +78,9 @@ def reduce():
         reduce.normalize_words_vector_wordnet(list)
         new_list['original_list'] = temp_list
         new_list['reduced_list'] = list
-        return json.dumps(new_list)
+        resp = Response(json.dumps(new_list))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
     return "file not allowed"
 
 
@@ -108,17 +113,20 @@ def recordListToJson(recordList):
     return json.dumps(new_list)
 
 
-def mmsToJson(rated,id):
-    if len(rated)>10:
-        rated = rated[:10]
+def mmsToJson(names,rated,id):
+    # if len(rated)>10:
+    #     rated = rated[:10]
     new_list = {}
     new_list['mms_id'] = id
     new_list['title'] = es.get_book_title(id)
     new_list['description'] = es.get_book_description(id)
     new_list['original_topics'] = es.get_book_original_topics(id)
     new_list['reduced_topics'] = es.get_book_reduced_topics(id)
-    new_list['similar_books'] = rated
+    new_list['similar_books_by_rate'] = rated
+    new_list['similar_books_by_name'] = names
+    new_list['isbn'] = es.get_book_isbn(id)
 
     return json.dumps(new_list)
 
-app.run(port=8080)
+
+app.run(host='192.168.56.99', port=8080)

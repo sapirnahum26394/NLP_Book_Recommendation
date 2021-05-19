@@ -139,3 +139,7 @@ class elasticsearch():
     def get_book_description(self,mms_id):
         res = self.client.get(index="books", id = mms_id)
         return res['_source']['description']
+
+    def get_book_isbn(self,mms_id):
+        res = self.client.get(index="books", id = mms_id)
+        return res['_source']['isbn']
