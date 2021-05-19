@@ -11,8 +11,8 @@ from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from BackEnd.classes.Create_report import create_report
 
-UPLOAD_FOLDER = 'files'
-ALLOWED_EXTENSIONS = set(['xml'])
+UPLOAD_FOLDER = 'files/marc_files'
+ALLOWED_EXTENSIONS = set(['xml','txt'])
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
@@ -25,7 +25,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/upload_file', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -41,7 +41,8 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file', filename=filename))
+            return "success"
+            # return redirect(url_for('uploaded_file', filename=filename))
     return '''
     <!doctype html>
     <title>Upload new File</title>
@@ -62,8 +63,8 @@ def uploaded_file(filename):
     es.upload_dictionary(record_list, "create")
     expend_synonym_index(record_list)
     reduce = Vector_reduction()
-    for i in range(len(record_list)):
-        record_list[i][1] = reduce.normalize_words_vector_wordnet(record_list[i][1])
+    #for i in range(len(record_list)):
+    #    record_list[i][1] = reduce.normalize_words_vector_wordnet(record_list[i][1])
     es.upload_dictionary(record_list, "update")
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
