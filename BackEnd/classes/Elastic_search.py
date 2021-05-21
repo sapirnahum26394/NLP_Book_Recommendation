@@ -143,3 +143,15 @@ class elasticsearch():
     def get_book_isbn(self,mms_id):
         res = self.client.get(index="books", id = mms_id)
         return res['_source']['isbn']
+
+
+    def get_random_books(self):
+
+        res = self.client.search(index='books', doc_type='recommendation', size=2,
+                    body={"query": {"match_all": {}}, "sort": {
+                        "_script": {
+                            "script": "Math.random()"
+                            }
+                        }
+                    })
+        print(res)
