@@ -42,7 +42,7 @@ def main():
     # Elastic search - uploading the record list to local elastic search
     es = elasticsearch()
     es.upload_dictionary(record_list,'create')
-    es.get_random_books()
+    print(es.get_random_books())
     # expend every topic in the record list with wordnet and create new index in elasticsearch
     expend_synonym_index(record_list)
 
@@ -55,7 +55,7 @@ Main
 """
 if __name__ == '__main__':
 
-    main()
+    #main()
 
     # score = rb.get_rate(991000001799704574,991000001799704574)
     # print(score)

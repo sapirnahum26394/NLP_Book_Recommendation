@@ -52,14 +52,48 @@ def uploaded_file(filename):
 
 @app.route("/mms_id")
 def mms_id():
-    id = request.args.get('id', default="*", type=int)
-    res,books_names = fb.find_books_by_book_id(id)
-    names,rated = rb.get_books_by_rate(id, res, books_names)
-    cr.create_excel(rated, str(id))
+    try:
+        id = request.args.get('id', default="*", type=int)
+        res,books_names = fb.find_books_by_book_id(id)
+        names,rated = rb.get_books_by_rate(id, res, books_names)
+        cr.create_excel(rated, str(id))
 
-    resp = Response(mmsToJson(names,rated, id))
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    return resp
+        resp = Response(mmsToJson(names,rated, id))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
+    except:
+        return "id is invalid"
+
+@app.route("/isbn")
+def isbn():
+    try:
+        isbn = request.args.get('id', default="*", type=str)
+        id = es.get_book_by_isbn(isbn)
+        res,books_names = fb.find_books_by_book_id(id)
+        names,rated = rb.get_books_by_rate(id, res, books_names)
+        cr.create_excel(rated, str(id))
+
+        resp = Response(mmsToJson(names,rated, id))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
+    except:
+        return "id is invalid"
+
+
+@app.route("/by_token")
+def search_by_token():
+    try:
+        token = request.args.get('token', default="*", type=str)
+        fs = Find_similar_topics()
+        list = fs.get_synonyms_list(token)
+        books = es.get_books_by_tokens(list)
+        resp = Response(json.dumps(books))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
+
+    except:
+        return "token is invalid"
+
 
 @app.route("/reduce", methods=['POST'])
 def reduce():
@@ -93,6 +127,14 @@ def expand():
     new_list['original_token'] = token
     new_list['expended_list'] = list
     return json.dumps(new_list)
+
+@app.route("/rnd_books")
+def rnd_books():
+    new_list = es.get_random_books()
+    resp = Response(json.dumps(new_list))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
 
 
 @app.errorhandler(404)

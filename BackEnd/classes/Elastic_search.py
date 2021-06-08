@@ -14,6 +14,8 @@ Imports
 """
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search, connections
+import calendar
+import time
 
 connections.add_connection('default', Elasticsearch)
 
@@ -77,7 +79,6 @@ class elasticsearch():
         res = self.client.get(index="books",id=mms_id)
         self.client.update(index="books", id=mms_id, body={"doc": {"similar_books": list}})
 
-
     def update_record_with_indexes(self,mms_id,record_indexes):
         res = self.client.get(index="books",id=mms_id)
         self.client.update(index="books", id=mms_id, body={"doc": {"synonym": record_indexes}})
@@ -117,6 +118,10 @@ class elasticsearch():
             synonyms.append(hit['_id'])
         return synonyms
 
+    def get_book_by_isbn(self,isbn):
+        res = self.client.search(index="books", body={"query": {"match": {"isbn": isbn}}}, size=1)
+        return res['hits']['hits']['_id']
+
     def get_book_reduced_topics(self,mms_id):
         res = self.client.get(index="books", id=mms_id)
         return res['_source']['reduced_topics']
@@ -144,14 +149,37 @@ class elasticsearch():
         res = self.client.get(index="books", id = mms_id)
         return res['_source']['isbn']
 
+    def get_books_by_tokens(self,tokens):
+        books=[]
+        for token in tokens:
+            res = self.client.search(index="books", body={"query": {"match": {"reduced_topics": token}}}, size=10)
+            for book in res['hits']['hits']:
+                temp = {}
+                temp['mms_id'] = book['_id']
+                temp['title'] = book['_source']['title']
+                temp['isbn'] = book['_source']['isbn']
+
+                books.append(temp)
+        return books
 
     def get_random_books(self):
-
-        res = self.client.search(index='books', doc_type='recommendation', size=2,
-                    body={"query": {"match_all": {}}, "sort": {
-                        "_script": {
-                            "script": "Math.random()"
+        gmt = time.gmtime()
+        res = self.client.search(index='books', doc_type='_doc', size=30,
+                    body={"query": {
+                            "function_score": {
+                                "functions": [{
+                                    "random_score": {
+                                        "seed": calendar.timegm(gmt)
+                                    }
+                                }]
                             }
-                        }
-                    })
-        print(res)
+                        }})
+        rnd_books=[]
+        for book in res['hits']['hits']:
+            temp={}
+            temp['mms_id'] = book['_id']
+            temp['title'] = book['_source']['title']
+            temp['isbn'] = book['_source']['isbn']
+            rnd_books.append(temp)
+
+        return rnd_books
