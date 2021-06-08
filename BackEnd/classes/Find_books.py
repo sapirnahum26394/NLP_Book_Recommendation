@@ -31,19 +31,23 @@ class find_books():
     Functions
     ===================================================================================================
     """
-    def find_books_by_book_id(self,mms_id,lamda = 1):
+    def find_books_by_book_id(self,mms_id):
         synonym = self.es.get_book_synonym(mms_id)
-        if len(synonym)<lamda:
-            lamda = len(synonym)
-        synonym = self.es.get_books_by_common_synonym(synonym,lamda)
-        del synonym[str(mms_id)]
+        lamda = len(synonym)
         books = []
-        for book in synonym:
-            books.append(book)
         books_names = {}
-        for book in synonym:
-            books_names[book] = synonym[book][0]
-        return books,books_names
+        while lamda > 0 and len(books) < 10:
+            synonyms = self.es.get_books_by_common_synonym(synonym,lamda)
+            if str(mms_id) in synonyms:
+                del synonyms[str(mms_id)]
+            for book in synonyms:
+                if len(books) < 10:
+                    books.append(book)
+            for book in synonyms:
+                if len(books_names) < 10:
+                    books_names[book] = synonyms[book][0]
+            lamda -= 1
+        return books, books_names
 
 
     def find_books_by_token(self,token,lamda = 2):

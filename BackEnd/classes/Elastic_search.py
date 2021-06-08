@@ -97,7 +97,7 @@ class elasticsearch():
     def get_books_by_common_synonym(self,synonym,lamda):
         count = {}
         for i in synonym:
-            res = self.client.search(index="books",body={"query": {"match": {"synonym":i}}},size=1000)
+            res = self.client.search(index="books",body={"query": {"match": {"synonym":i}}},size=10)
             for hit in res['hits']['hits']:
                 if hit['_id'] in count:
                     count[hit['_id']][1] += 1

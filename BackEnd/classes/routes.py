@@ -156,8 +156,6 @@ def recordListToJson(recordList):
 
 
 def mmsToJson(names,rated,id):
-    # if len(rated)>10:
-    #     rated = rated[:10]
     new_list = {}
     new_list['mms_id'] = id
     new_list['title'] = es.get_book_title(id)
