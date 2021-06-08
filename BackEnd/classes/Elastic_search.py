@@ -120,7 +120,7 @@ class elasticsearch():
 
     def get_book_by_isbn(self,isbn):
         res = self.client.search(index="books", body={"query": {"match": {"isbn": isbn}}}, size=1)
-        return res['hits']['hits']['_id']
+        return res['hits']['hits'][0]['_id']
 
     def get_book_reduced_topics(self,mms_id):
         res = self.client.get(index="books", id=mms_id)
