@@ -52,17 +52,17 @@ def uploaded_file(filename):
 
 @app.route("/mms_id")
 def mms_id():
-    try:
-        id = request.args.get('id', default="*", type=int)
-        res,books_names = fb.find_books_by_book_id(id)
-        names,rated = rb.get_books_by_rate(id, res, books_names)
-        cr.create_excel(rated, str(id))
+    # try:
+    id = request.args.get('id', default="*", type=int)
+    res,books_names = fb.find_books_by_book_id(id)
+    names,rated = rb.get_books_by_rate(id, res, books_names)
+    cr.create_excel(rated, str(id))
 
-        resp = Response(mmsToJson(names,rated, id))
-        resp.headers['Access-Control-Allow-Origin'] = '*'
-        return resp
-    except:
-        return "id is invalid"
+    resp = Response(mmsToJson(names,rated, id))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+    # except:
+    #     return "id is invalid"
 
 @app.route("/isbn")
 def isbn():

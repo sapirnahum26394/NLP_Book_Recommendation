@@ -35,9 +35,8 @@ def main():
     data = normalizeMarc(XML_file)
     record_list = data.records_list
 
-    nb = number_batch()
-    #vectors = nb.getVectorsFromWords(data.dictionary)
-    # print(vectors)
+    # nb = number_batch()
+    # vectors = nb.getVectorsFromWords(data.dictionary)
 
     # Elastic search - uploading the record list to local elastic search
     es = elasticsearch()
@@ -55,10 +54,9 @@ Main
 """
 if __name__ == '__main__':
 
-    #main()
+    # main()
 
-    # score = rb.get_rate(991000001799704574,991000001799704574)
-    # print(score)
+    rb.cosine_similarity2(991000001799704574,991000001799704574)
     # fb = find_books()
     # res,books_names = fb.find_books_by_book_id(991000015309704574)
     # rated, ids = rb.get_books_by_rate(991000015309704574, res, books_names)
