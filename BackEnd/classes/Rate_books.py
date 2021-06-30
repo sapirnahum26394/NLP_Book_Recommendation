@@ -6,6 +6,9 @@ Authors:
 Sapir Nahum
 Shmuel Eliasyan
 """
+import math
+from scipy.spatial import distance
+import numpy as np
 
 """
 ===================================================================================================
@@ -29,9 +32,12 @@ class rate_books():
         new_list_names = {}
         new_list_ids = {}
         for book in list:
-            rate = self.get_rate(original,book)
-            new_list_names[book] = books_names[book]
-            new_list_ids[book] = rate
+            # rate = self.get_rate(original,book)
+            rate = self.cosine_similarity2(original,book)
+            if rate > 0:
+                rate = self.get_rate(original,book)
+                new_list_names[book] = books_names[book]
+                new_list_ids[book] = rate
         sorted_dict_names = dict(sorted(new_list_names.items(), key=lambda item: item[1], reverse = True))
         sorted_dict_ids = dict(sorted(new_list_ids.items(), key=lambda item: item[1], reverse = True))
         return sorted_dict_names,sorted_dict_ids
@@ -53,3 +59,58 @@ class rate_books():
                 if s > score[word]:
                     score[word] = s
         return int((sum(score.values())/len(score))*100)
+
+    def cosine_similarity(self, book1, book2):
+        sum=0
+        sb1=0
+        sb2=0
+        wigth1 = self.get_wights(book1)
+        wigth2 = self.get_wights(book2)
+        print(wigth1)
+        print(wigth2)
+        for syn in wigth1:
+            if syn in wigth2:
+                sum += wigth1[syn]*wigth2[syn]
+                sb1 += wigth1[syn]*wigth1[syn]
+                sb2 += wigth2[syn]*wigth2[syn]
+        return sum/(math.sqrt(sb1)*math.sqrt(sb2))
+
+    def get_wights(self,mms_id):
+        wights = {}
+        topics_list = self.es.get_book_normalized_topics(mms_id)
+        synonym = self.es.get_book_synonym_lists(mms_id)
+        syn_ids = self.es.get_book_synonym(mms_id)
+        for (syn, syn_id) in zip(synonym, syn_ids):
+            for token in topics_list:
+                if token in syn:
+                    if syn_id in wights:
+                        wights[syn_id] += 1 / len(synonym)
+                    else:
+                        wights[syn_id] = 1 / len(synonym)
+        return wights
+
+
+    def cosine_similarity2(self, book1, book2):
+        synonyms = self.es.get_all_synonym()
+        syn_vector1 = {}
+        for i in synonyms:
+            syn_vector1[i['_id']] = 0
+        syn_vector2 = syn_vector1.copy()
+        synonyms1 = self.es.get_book_synonym(book1)
+        topics1 = self.es.get_book_normalized_topics(book1)
+        synonyms2 = self.es.get_book_synonym(book2)
+        topics2 = self.es.get_book_normalized_topics(book2)
+
+        for (s1,s2) in zip(synonyms1,synonyms2):
+            list_of_syn1 = self.es.get_synonym_by_id(s1)
+            list_of_syn2 = self.es.get_synonym_by_id(s2)
+            for (t1, t2) in zip(topics1, topics2):
+                if t1 in list_of_syn1:
+                    syn_vector1[s1] += 1
+                if t2 in list_of_syn2:
+                    syn_vector2[s2] += 1
+
+        syn_vector1 = np.array(list(syn_vector1.values()))
+        syn_vector2 = np.array(list(syn_vector2.values()))
+        sum = np.dot(syn_vector1, syn_vector2)/(np.linalg.norm(syn_vector1)*np.linalg.norm(syn_vector2))
+        return sum

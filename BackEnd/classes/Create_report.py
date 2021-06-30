@@ -35,12 +35,14 @@ class create_report():
         scores=[]
         names=[]
         original_topics=[]
+        normalised=[]
         topics=[]
         synon = []
         ids.append(book_id)
         scores.append("-")
         names.append(self.es.get_book_title(book_id))
         original_topics.append(self.es.get_book_original_topics(book_id))
+        normalised.append(self.es.get_book_normalized_topics(book_id))
         topics.append(self.es.get_book_reduced_topics(book_id))
         synon.append(self.es.get_book_synonym_lists(book_id))
         for book in sorted_dict:
@@ -48,13 +50,15 @@ class create_report():
             scores.append(sorted_dict[book])
             names.append(self.es.get_book_title(book))
             original_topics.append(self.es.get_book_original_topics(book))
+            normalised.append(self.es.get_book_normalized_topics(book))
             topics.append(self.es.get_book_reduced_topics(book))
             synon.append(self.es.get_book_synonym_lists(book))
         df = pd.DataFrame({'Book ID':ids,
                            'Title':names,
                            'Score':scores,
                            'Original Topics':original_topics,
-                           'Topics':topics,
+                           'Normalized Topics':normalised,
+                           'Reduced Topics':topics,
                            'Synonyms':synon})
 
         writer = pd.ExcelWriter("files/report.xlsx", engine='xlsxwriter')
