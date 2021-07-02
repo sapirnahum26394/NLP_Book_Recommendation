@@ -29,7 +29,7 @@ rb = rate_books()
 
 def main():
     # upload this file to elastic search data base
-    XML_file = "files/marc_files/bib_records.xml"
+    XML_file = "files/marc_files/BIBLIOGRAPHIC_64846678830003941_1.xml"
 
     # Normalize marc(xml) file and create a record list containing mms_id and list of topics for each record
     data = normalizeMarc(XML_file)
@@ -56,7 +56,7 @@ if __name__ == '__main__':
 
     # main()
 
-    rb.cosine_similarity2(991000001799704574,991000001799704574)
+    #rb.cosine_similarity2(991000001799704574,991000001799704574)
     # fb = find_books()
     # res,books_names = fb.find_books_by_book_id(991000015309704574)
     # rated, ids = rb.get_books_by_rate(991000015309704574, res, books_names)

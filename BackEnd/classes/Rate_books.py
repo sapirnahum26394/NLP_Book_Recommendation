@@ -34,6 +34,7 @@ class rate_books():
         for book in list:
             # rate = self.get_rate(original,book)
             rate = self.cosine_similarity2(original,book)
+            print(rate)
             if rate > 0:
                 rate = self.get_rate(original,book)
                 new_list_names[book] = books_names[book]

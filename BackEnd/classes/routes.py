@@ -169,5 +169,4 @@ def mmsToJson(names,rated,id):
     return json.dumps(new_list)
 
 
-app.run()
-# host='192.168.56.99', port=8080
+app.run(host='192.168.56.99', port=8080)
