@@ -94,7 +94,7 @@ class elasticsearch():
         return res['_source']['synonym']
 
     def get_all_synonym(self):
-        res = self.client.search(index="synonyms", size=1000)
+        res = self.client.search(index="synonyms", size=10000)
         return res['hits']['hits']
 
     def get_book_synonym_lists(self, mms_id):

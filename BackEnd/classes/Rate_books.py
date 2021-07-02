@@ -36,6 +36,7 @@ class rate_books():
             rate = self.cosine_similarity2(original,book)
             if rate > 0:
                 rate = self.get_rate(original,book)
+                print("numberbatch: ",rate)
                 new_list_names[book] = books_names[book]
                 new_list_ids[book] = rate
         sorted_dict_names = dict(sorted(new_list_names.items(), key=lambda item: item[1], reverse = True))
@@ -45,9 +46,10 @@ class rate_books():
     def get_rate(self,book1,book2):
         topics_list1 = self.es.get_book_reduced_topics(book1)
         topics_list2 = self.es.get_book_reduced_topics(book2)
+        # print(topics_list1)
+        # print(topics_list2)
         score = {}
-
-        count = 0
+        count = len(topics_list2)+len(topics_list1)
         # threshold = 0.50     # if needed
         for key in topics_list1:
             for word in topics_list2:
@@ -58,7 +60,11 @@ class rate_books():
                 # print(key,word+" = "+str(s)+" "+str(score[word]))
                 if s > score[word]:
                     score[word] = s
-        return int((sum(score.values())/len(score))*100)
+            if s > 0.3:
+                count -= 1
+        # print(count)
+        # print(sum(score.values()))
+        return int((sum(score.values())/count)*100)
 
     def cosine_similarity(self, book1, book2):
         sum=0
@@ -66,8 +72,6 @@ class rate_books():
         sb2=0
         wigth1 = self.get_wights(book1)
         wigth2 = self.get_wights(book2)
-        print(wigth1)
-        print(wigth2)
         for syn in wigth1:
             if syn in wigth2:
                 sum += wigth1[syn]*wigth2[syn]
@@ -112,5 +116,5 @@ class rate_books():
 
         syn_vector1 = np.array(list(syn_vector1.values()))
         syn_vector2 = np.array(list(syn_vector2.values()))
-        sum = np.dot(syn_vector1, syn_vector2)/(np.linalg.norm(syn_vector1)*np.linalg.norm(syn_vector2))
+        sum = np.dot(syn_vector1, syn_vector2)/(math.sqrt(len(synonyms1))*math.sqrt(len(synonyms2)))
         return sum
