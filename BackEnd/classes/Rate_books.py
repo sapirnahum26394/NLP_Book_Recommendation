@@ -32,11 +32,9 @@ class rate_books():
         new_list_names = {}
         new_list_ids = {}
         for book in list:
-            # rate = self.get_rate(original,book)
             rate = self.cosine_similarity2(original,book)
             if rate > 0:
                 rate = self.get_rate(original,book)
-                print("numberbatch: ",rate)
                 new_list_names[book] = books_names[book]
                 new_list_ids[book] = rate
         sorted_dict_names = dict(sorted(new_list_names.items(), key=lambda item: item[1], reverse = True))
@@ -46,8 +44,6 @@ class rate_books():
     def get_rate(self,book1,book2):
         topics_list1 = self.es.get_book_reduced_topics(book1)
         topics_list2 = self.es.get_book_reduced_topics(book2)
-        # print(topics_list1)
-        # print(topics_list2)
         score = {}
         count = len(topics_list2)+len(topics_list1)
         # threshold = 0.50     # if needed
@@ -57,14 +53,14 @@ class rate_books():
                     score[word]=0
 
                 s = float(self.nb.similarity_score(key,word))
-                # print(key,word+" = "+str(s)+" "+str(score[word]))
                 if s > score[word]:
                     score[word] = s
-            if s > 0.3:
-                count -= 1
-        # print(count)
-        # print(sum(score.values()))
-        return int((sum(score.values())/count)*100)
+                print(key,word+" = "+str(s)+" "+str(score[word]))
+
+        for word in score:
+            if score[word]>0.3:
+                count-=1
+        return sum(score.values())/count
 
     def cosine_similarity(self, book1, book2):
         sum=0

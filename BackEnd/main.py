@@ -58,7 +58,7 @@ if __name__ == '__main__':
 
     # print(rb.cosine_similarity2(99155559305803941,99155558564803941))
     # print(rb.cosine_similarity(99155559305803941,99155558564803941))
-    # print(rb.get_rate(99155559305803941,99155558564803941))
+    # print(rb.get_rate(99155559305803941,99155559305803941))
     # fb = find_books()
     # res,books_names = fb.find_books_by_book_id(991000015309704574)
     # rated, ids = rb.get_books_by_rate(991000015309704574, res, books_names)
