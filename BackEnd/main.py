@@ -22,8 +22,9 @@ from BackEnd.classes.Number_batch import number_batch
 from flask import Flask
 app=Flask(__name__)
 rb = rate_books()
-#import nltk
-#nltk.download('wordnet')
+fb = find_books()
+# import nltk
+# nltk.download('wordnet')
 
 
 
@@ -53,16 +54,4 @@ Main
 ===================================================================================================
 """
 if __name__ == '__main__':
-
-    # main()
-
-    # print(rb.cosine_similarity2(99155559305803941,99155558564803941))
-    # print(rb.cosine_similarity(99155559305803941,99155558564803941))
-    # print(rb.get_rate(99155559305803941,99155559305803941))
-    # fb = find_books()
-    # res,books_names = fb.find_books_by_book_id(991000015309704574)
-    # rated, ids = rb.get_books_by_rate(991000015309704574, res, books_names)
-    # print(rated)
-    # cr = create_report()
-    # cr.create_excel(ids, str(991000015309704574))
     import BackEnd.classes.routes as routes

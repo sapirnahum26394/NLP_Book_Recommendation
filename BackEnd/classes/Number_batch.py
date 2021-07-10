@@ -7,7 +7,6 @@ Sapir Nahum
 Shmuel Eliasyan
 """
 from gensim.models import KeyedVectors
-import wordfreq
 import re
 """
 ===================================================================================================
