@@ -7,7 +7,6 @@ Sapir Nahum
 Shmuel Eliasyan
 """
 import math
-from scipy.spatial import distance
 import numpy as np
 
 """
@@ -29,12 +28,14 @@ class rate_books():
         self.es = elasticsearch()
 
     def get_books_by_rate(self,original,list,books_names):
+        """
+        the function get book and a list of books and check for every book how similar he is to the first book
+        """
         new_list_names = {}
         new_list_ids = {}
         for book in list:
-            rate = self.cosine_similarity2(original,book)
-            print(rate)
-            if rate > 0:
+            rate = self.cosine_similarity(original,book)
+            if rate > 0.2:
                 rate = self.get_rate(original,book)
                 new_list_names[book] = books_names[book]
                 new_list_ids[book] = rate
@@ -43,11 +44,13 @@ class rate_books():
         return sorted_dict_names,sorted_dict_ids
 
     def get_rate(self,book1,book2):
+        """
+        the function receive 2 books and calculate the similarity using number batch
+        """
         topics_list1 = self.es.get_book_reduced_topics(book1)
         topics_list2 = self.es.get_book_reduced_topics(book2)
         score = {}
         count = len(topics_list2)+len(topics_list1)
-        # threshold = 0.50     # if needed
         for key in topics_list1:
             for word in topics_list2:
                 if word not in score:
@@ -56,62 +59,41 @@ class rate_books():
                 s = float(self.nb.similarity_score(key,word))
                 if s > score[word]:
                     score[word] = s
-                print(key,word+" = "+str(s)+" "+str(score[word]))
-
         for word in score:
-            if score[word]>0.3:
-                count-=1
+            if score[word] > 0.3:
+                count -= 1
         return sum(score.values())/count
 
-    def cosine_similarity(self, book1, book2):
-        sum=0
-        sb1=0
-        sb2=0
-        wigth1 = self.get_wights(book1)
-        wigth2 = self.get_wights(book2)
-        for syn in wigth1:
-            if syn in wigth2:
-                sum += wigth1[syn]*wigth2[syn]
-                sb1 += wigth1[syn]*wigth1[syn]
-                sb2 += wigth2[syn]*wigth2[syn]
-        return sum/(math.sqrt(sb1)*math.sqrt(sb2))
 
-    def get_wights(self,mms_id):
-        wights = {}
-        topics_list = self.es.get_book_normalized_topics(mms_id)
-        synonym = self.es.get_book_synonym_lists(mms_id)
-        syn_ids = self.es.get_book_synonym(mms_id)
-        for (syn, syn_id) in zip(synonym, syn_ids):
-            for token in topics_list:
-                if token in syn:
-                    if syn_id in wights:
-                        wights[syn_id] += 1 / len(synonym)
-                    else:
-                        wights[syn_id] = 1 / len(synonym)
-        return wights
-
-
-    def cosine_similarity2(self, book1, book2):
+    def create_vector(self,book_synonyms,topics):
+        """
+        the function receive list of synonyms and list of topics and create vector for the cosine similarity
+        """
         synonyms = self.es.get_all_synonym()
-        syn_vector1 = {}
+        syn_vector = {}
         for i in synonyms:
-            syn_vector1[i['_id']] = 0
-        syn_vector2 = syn_vector1.copy()
+            syn_vector[i['_id']] = 0
+
+        for s in book_synonyms:
+            list_of_syn = self.es.get_synonym_by_id(s)
+            for t in topics:
+                if t in list_of_syn:
+                    syn_vector[s] += 1
+        return np.array(list(syn_vector.values()))
+
+
+    def cosine_similarity(self, book1, book2):
+        """
+        the function receive 2 books and calculate the similarity using cosine similarity
+        """
         synonyms1 = self.es.get_book_synonym(book1)
         topics1 = self.es.get_book_normalized_topics(book1)
         synonyms2 = self.es.get_book_synonym(book2)
         topics2 = self.es.get_book_normalized_topics(book2)
 
-        for (s1,s2) in zip(synonyms1,synonyms2):
-            list_of_syn1 = self.es.get_synonym_by_id(s1)
-            list_of_syn2 = self.es.get_synonym_by_id(s2)
-            for (t1, t2) in zip(topics1, topics2):
-                if t1 in list_of_syn1:
-                    syn_vector1[s1] += 1
-                if t2 in list_of_syn2:
-                    syn_vector2[s2] += 1
+        syn_vector1 = self.create_vector(synonyms1,topics1)
+        syn_vector2 = self.create_vector(synonyms2,topics2)
 
-        syn_vector1 = np.array(list(syn_vector1.values()))
-        syn_vector2 = np.array(list(syn_vector2.values()))
         sum = np.dot(syn_vector1, syn_vector2)/(math.sqrt(len(synonyms1))*math.sqrt(len(synonyms2)))
+
         return sum

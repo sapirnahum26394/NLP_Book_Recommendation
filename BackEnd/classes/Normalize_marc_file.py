@@ -6,7 +6,6 @@ Authors:
 Sapir Nahum
 Shmuel Eliasyan
 """
-from BackEnd.classes.Topic_Vector_Reduction import Vector_reduction
 
 """
 ===================================================================================================
@@ -14,14 +13,11 @@ Imports
 ===================================================================================================
 """
 import xml.etree.ElementTree as ET
-from gensim.models import Word2Vec
-import shutil
-import os
 import re
-# import nltk
-# nltk.download('stopwords')
+import nltk
+nltk.download('stopwords')
 from nltk.corpus import stopwords
-
+from BackEnd.classes.Word_list_reduction import Word_list_reduction
 stop_words = set(stopwords.words('english'))
 
 
@@ -44,7 +40,17 @@ class normalizeMarc():
     """
 
     def parse_xml(self, xml_name):
-        # xml should be in shape of a collection with some records
+        """
+        xml should be in shape of a collection with some records
+        the function receive MARC file (xml file) and go over every record and save the information we need
+        the tags we save are:
+        001 - book mms id
+        020 - book isbn
+        245 - book title
+        520 - book description
+        650 - book topics
+        """
+
         xml_tree = ET.parse(xml_name)
         xml_root = xml_tree.getroot()
         fields_and_ids = []
@@ -94,12 +100,19 @@ class normalizeMarc():
 
 
     def reduceListOfTopics(self, list):
-        reduce = Vector_reduction()
-        newList = reduce.normalize_words_vector_wordnet(list)
+        """
+        the function receive a list and return reduced of synonyms list using Vector_reduction class
+        """
+        reduce = Word_list_reduction()
+        newList = reduce.normalize_words_list_wordnet(list)
         return newList
 
 
     def normalize_650_fields(self, list):
+        """
+        the function receive a list of book topic and normalize it
+        the function separate the word, remove numbers and remove stop words
+        """
         final_words_array = []
         for i in range(len(list)):
             list[i] = re.sub(r'\[[0-9]*\]', '', list[i])
@@ -114,6 +127,9 @@ class normalizeMarc():
 
 
     def normalize_single_array_cell(self, cell_value):
+        """
+        the function receive a word topic and lower the letters and remove any char that is not a letter
+        """
         cell_value = cell_value.lower()
         cell_value = re.sub(r'\d', ' ', cell_value)
         cell_value = re.sub(r'\s', ' ', cell_value)

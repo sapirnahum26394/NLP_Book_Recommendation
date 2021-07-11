@@ -6,14 +6,13 @@ Authors:
 Sapir Nahum
 Shmuel Eliasyan
 """
-from gensim.models import KeyedVectors
-import wordfreq
-import re
+
 """
 ===================================================================================================
 Imports
 ===================================================================================================
 """
+from gensim.models import KeyedVectors
 
 
 class number_batch():
@@ -24,15 +23,12 @@ class number_batch():
     """
 
     def __init__(self):
+        """
+        the class create a word embedding model using numberbatch file
+        """
         self.number_batch_path = "../files/number_batch/numberbatch-en.txt"
         self.number_batch_model = ""
         self.load_model()
-        # English-specific stopword handling
-        self.STOPWORDS = ['the', 'a', 'an']
-        self.DROP_FIRST = ['to']
-        self.DOUBLE_DIGIT_RE = re.compile(r'[0-9][0-9]')
-        self.DIGIT_RE = re.compile(r'[0-9]')
-
 
     """
     ===================================================================================================
@@ -41,6 +37,10 @@ class number_batch():
     """
 
     def load_model(self):
+        """
+        the function tries to load existing model
+        if model doesnt exist it will create a new model using KeyedVectors.load_word2vec_format by gensim
+        """
         try:
             self.number_batch_model = KeyedVectors.load("files/number_batch/numberbatch.model")
         except:
@@ -52,18 +52,11 @@ class number_batch():
             )
             self.number_batch_model.save("files/number_batch/numberbatch.model")
 
-    def find_similar_words(self,term,number_of_words):
-        try:
-            list = self.number_batch_model.most_similar(term, topn=number_of_words)
-            newList=[]
-            for (word,score) in list:
-                newList.append(word)
-            return newList
-        except:
-            print("Error with model in 'find_similar_words'")
-
 
     def similarity_score(self,term1,term2):
+        """
+        the function receive two words and return their similarity score
+        """
         try:
             return self.number_batch_model.similarity(term1, term2)
         except:

@@ -32,6 +32,9 @@ class find_books():
     ===================================================================================================
     """
     def find_books_by_book_id(self,mms_id):
+        """
+        the function receive mms_id and return the book ans a list of similar books
+        """
         synonym = self.es.get_book_synonym(mms_id)
         lamda = len(synonym)
         books = []
@@ -50,6 +53,10 @@ class find_books():
         return books, books_names
 
 
-    def find_books_by_token(self,token,lamda = 2):
+    def find_books_by_token(self, token):
+        """
+        the function receive a token and look for a synonyms list with the word
+        and then look for the books with this synonyms list
+        """
         synonym = self.es.get_synonym_index_by_token(token)
-        return self.es.get_books_by_common_synonym(synonym,lamda)
+        return self.es.get_books_by_common_synonym(synonym,1)
