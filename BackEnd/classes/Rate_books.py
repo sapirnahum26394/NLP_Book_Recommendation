@@ -28,6 +28,9 @@ class rate_books():
         self.es = elasticsearch()
 
     def get_books_by_rate(self,original,list,books_names):
+        """
+        the function get book and a list of books and check for every book how similar he is to the first book
+        """
         new_list_names = {}
         new_list_ids = {}
         for book in list:
@@ -41,11 +44,13 @@ class rate_books():
         return sorted_dict_names,sorted_dict_ids
 
     def get_rate(self,book1,book2):
+        """
+        the function receive 2 books and calculate the similarity using number batch
+        """
         topics_list1 = self.es.get_book_reduced_topics(book1)
         topics_list2 = self.es.get_book_reduced_topics(book2)
         score = {}
         count = len(topics_list2)+len(topics_list1)
-        # threshold = 0.50     # if needed
         for key in topics_list1:
             for word in topics_list2:
                 if word not in score:
@@ -59,21 +64,11 @@ class rate_books():
                 count -= 1
         return sum(score.values())/count
 
-    def get_wights(self,mms_id):
-        wights = {}
-        topics_list = self.es.get_book_normalized_topics(mms_id)
-        synonym = self.es.get_book_synonym_lists(mms_id)
-        syn_ids = self.es.get_book_synonym(mms_id)
-        for (syn, syn_id) in zip(synonym, syn_ids):
-            for token in topics_list:
-                if token in syn:
-                    if syn_id in wights:
-                        wights[syn_id] += 1 / len(synonym)
-                    else:
-                        wights[syn_id] = 1 / len(synonym)
-        return wights
 
     def create_vector(self,book_synonyms,topics):
+        """
+        the function receive list of synonyms and list of topics and create vector for the cosine similarity
+        """
         synonyms = self.es.get_all_synonym()
         syn_vector = {}
         for i in synonyms:
@@ -86,8 +81,11 @@ class rate_books():
                     syn_vector[s] += 1
         return np.array(list(syn_vector.values()))
 
-    def cosine_similarity(self, book1, book2):
 
+    def cosine_similarity(self, book1, book2):
+        """
+        the function receive 2 books and calculate the similarity using cosine similarity
+        """
         synonyms1 = self.es.get_book_synonym(book1)
         topics1 = self.es.get_book_normalized_topics(book1)
         synonyms2 = self.es.get_book_synonym(book2)
