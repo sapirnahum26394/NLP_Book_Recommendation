@@ -183,6 +183,18 @@ def rnd_books():
     return resp
 
 
+@app.route("/review")
+def add_review():
+    content = request.json
+    es.add_new_review(content)
+    return "ok"
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=True)
+
+
+
 @app.errorhandler(404)
 def not_found(e):
     return "{}"
