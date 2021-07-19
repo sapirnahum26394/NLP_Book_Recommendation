@@ -253,3 +253,10 @@ class elasticsearch():
             rnd_books.append(temp)
 
         return rnd_books
+
+    def add_new_review(self,json):
+        self.client.indices.create(index="feedbacks", ignore=[400, 404])
+        self.client.index(index="feedbacks", body={"mms_id1": json['mms_id1'], "mms_id2": json['mms_id2'],
+                                    "score": json['score'],
+                                    "q1": json['q1'], "q2": json['q2'], "q3": json['q3'],
+                                    "q4": json['q4'],"q5": json['q5'],})
