@@ -45,8 +45,10 @@ class expend_synonym_index:
                 token_index = elastic.get_synonym_index_by_token(word)
                 if not token_index:
                     synonyms = self.get_synonyms_list(word)
+                    print(synonyms)
                     token_index = elastic.add_new_synonyms_list(synonyms)
                 words_indexes.append(token_index)
+
             elastic.update_record_with_indexes(record[0], words_indexes)
 
 

@@ -40,6 +40,8 @@ class find_books():
         books = []
         books_names = {}
         while lamda > 0 and len(books) < 20:
+            print(synonym)
+            print(lamda)
             synonyms = self.es.get_books_by_common_synonym(synonym,lamda)
             if str(mms_id) in synonyms:
                 del synonyms[str(mms_id)]

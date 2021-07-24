@@ -20,6 +20,7 @@ from BackEnd.classes.Expend_synonym_index import expend_synonym_index
 from BackEnd.classes.Rate_books import rate_books
 import os
 from flask import Flask, flash, request, redirect, url_for, Response
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from BackEnd.classes.Create_report import create_report
 import json
@@ -34,6 +35,7 @@ rb = rate_books()
 es = elasticsearch()
 fb = find_books()
 cr = create_report()
+cors=CORS(app)
 
 """
 ===================================================================================================
@@ -50,19 +52,25 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/upload_file', methods=['POST'])
+@app.route('/upload_file', methods=['POST', 'OPTIONS'])
 def upload_file():
     """
     the function receive a file and insert it to the files directory
     """
-    if 'file' not in request.files:
-        flash('No file part')
-        return redirect(request.url)
-    file = request.files['file']
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return redirect(url_for('uploaded_file', filename=filename))
+    if request.method == 'OPTIONS':
+        resp = Response(json.dumps("{ ok }"))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        resp.headers['Access-Control-Allow-Headers'] = '*'
+        return resp
+    else:
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file', filename=filename))
 
 
 @app.route('/uploads/<filename>')
@@ -85,17 +93,16 @@ def mms_id():
     """
     the function receive a book mms id and return the information about the book and a list of similar books
     """
-    try:
-        id = request.args.get('id', default="*", type=int)
-        res, books_names = fb.find_books_by_book_id(id)
-        names, rated = rb.get_books_by_rate(id, res, books_names)
-        cr.create_excel(rated, str(id))
+    id = request.args.get('id', default="*", type=int)
+    res, books_names = fb.find_books_by_book_id(id)
+    names, rated = rb.get_books_by_rate(id, res, books_names)
+    cr.create_excel(rated, str(id))
 
-        resp = Response(mmsToJson(names, rated, id))
-        resp.headers['Access-Control-Allow-Origin'] = '*'
-        return resp
-    except:
-        return "id is invalid"
+    resp = Response(mmsToJson(names, rated, id))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+    # except:
+    #     return "id is invalid"
 
 
 @app.route("/isbn")
@@ -127,6 +134,7 @@ def search_by_token():
         books = es.get_books_by_tokens(token)
         resp = Response(json.dumps(books))
         resp.headers['Access-Control-Allow-Origin'] = '*'
+
         return resp
     except:
         return "token is invalid"
@@ -183,16 +191,24 @@ def rnd_books():
     return resp
 
 
-@app.route("/review")
+@app.route("/review", methods=['OPTIONS'])
+def check_review():
+
+    resp = Response(json.dumps("{ ok }"))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+    print(resp)
+    return resp
+
+
+@app.route("/review", methods=['POST'])
 def add_review():
     content = request.json
+    print(content)
     es.add_new_review(content)
-    return "ok"
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
-
+    resp = Response(json.dumps("{ status: 200 }"))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 
 @app.errorhandler(404)
@@ -234,5 +250,4 @@ def mmsToJson(names, rated, id):
     return json.dumps(new_list)
 
 
-app.run()
-# host='192.168.56.99', port=8080
+app.run(host='192.168.56.99', port=8080)
