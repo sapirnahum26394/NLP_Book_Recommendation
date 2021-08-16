@@ -73,9 +73,7 @@ class rate_books():
         syn_vector = {}
         for i in synonyms:
             syn_vector[i['_id']] = 0
-        print(book_synonyms)
         for s in book_synonyms:
-            print(s)
             list_of_syn = self.es.get_synonym_by_id(s)
             for t in topics:
                 if t in list_of_syn:

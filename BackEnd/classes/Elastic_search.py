@@ -6,6 +6,7 @@ Authors:
 Sapir Nahum
 Shmuel Eliasyan
 """
+import logging
 
 """
 ===================================================================================================
@@ -41,6 +42,8 @@ class elasticsearch():
         """
         upload new books to the books index
         """
+        logging.info("Uploading books information to ElasticSearch")
+
         if mode == "create":
             self.client.indices.create(index="books", ignore=[400, 404])
             for i in range(len(dictionary)):
@@ -83,18 +86,23 @@ class elasticsearch():
         """
           find synonyms list by token
         """
-        synonyms = []
-        res = self.client.search(index="synonyms", body={"query": {"match": {"words": token}}}, size=1000)
-        for hit in res['hits']['hits']:
-            synonyms.append(hit['_id'])
-        return synonyms
+        try:
+            synonyms = []
+            res = self.client.search(index="synonyms", body={"query": {"match": {"words": token}}}, size=1000)
+            for hit in res['hits']['hits']:
+                synonyms.append(hit['_id'])
+            return synonyms
+        except:
+            self.client.indices.create(index="synonyms", ignore=400)
+            return False
 
     def add_new_synonyms_list(self, synonyms_list):
         """
         add new synonyms list to synonyms index
         """
         self.client.indices.create(index="synonyms", ignore=400)
-        return (self.client.index(index="synonyms", body={"words": synonyms_list}))['_id']
+        res = self.client.index(index="synonyms", body={"words": synonyms_list})
+        return res['_id']
 
     def update_record_with_indexes(self, mms_id, record_indexes):
         """

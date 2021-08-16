@@ -15,10 +15,11 @@ Imports
 import xml.etree.ElementTree as ET
 import re
 import nltk
-nltk.download('stopwords')
+import logging
 from nltk.corpus import stopwords
 from BackEnd.classes.Word_list_reduction import Word_list_reduction
 stop_words = set(stopwords.words('english'))
+nltk.download('stopwords')
 
 
 class normalizeMarc():
@@ -50,7 +51,7 @@ class normalizeMarc():
         520 - book description
         650 - book topics
         """
-
+        logging.info("Extracting data from the MARC file..")
         xml_tree = ET.parse(xml_name)
         xml_root = xml_tree.getroot()
         fields_and_ids = []
@@ -85,7 +86,7 @@ class normalizeMarc():
                         if subfield.get('code') == 'a':
                             description = subfield.text
 
-            if orig_topics:
+            if orig_topics and len(orig_topics) > 5:
                 fields_and_id.append(mms_id)
                 fields_and_id.append(title)
                 fields_and_id.append(orig_topics)
@@ -96,6 +97,7 @@ class normalizeMarc():
                 fields_and_id.append(description)
                 fields_and_id.append(isbn)
                 fields_and_ids.append(fields_and_id)
+        logging.info("Finished extracting data from the MARC file successfully!!!")
         return fields_and_ids
 
 

@@ -17,7 +17,7 @@ from classes.Elastic_search import elasticsearch
 from classes.Expend_synonym_index import expend_synonym_index
 from flask import Flask
 app = Flask(__name__)
-es=elasticsearch()
+es = elasticsearch()
 
 
 """
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     Start flask app and impost routes functions
     """
 
-    data = normalizeMarc("files/marc_files/bib_records.xml")
+    data = normalizeMarc("files/marc_files/BIBLIOGRAPHIC.xml")
     record_list = data.records_list
     es.upload_dictionary(record_list, "create")
     expend_synonym_index(record_list)
