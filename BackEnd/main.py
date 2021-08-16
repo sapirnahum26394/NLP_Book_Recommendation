@@ -18,7 +18,8 @@ from classes.Expend_synonym_index import expend_synonym_index
 from flask import Flask
 app = Flask(__name__)
 es = elasticsearch()
-
+import logging
+from datetime import date
 
 """
 ===================================================================================================
@@ -29,7 +30,8 @@ if __name__ == '__main__':
     """
     Start flask app and impost routes functions
     """
-
+    today = date.today()
+    logging.basicConfig(format='%(asctime)s : %(message)s', level=logging.INFO, filename='files/logs/'+today.strftime("%d-%m-%Y")+'.log')
     data = normalizeMarc("files/marc_files/BIBLIOGRAPHIC.xml")
     record_list = data.records_list
     es.upload_dictionary(record_list, "create")
