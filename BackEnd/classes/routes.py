@@ -96,7 +96,7 @@ def mms_id():
     id = request.args.get('id', default="*", type=int)
     res, books_names = fb.find_books_by_book_id(id)
     names, rated = rb.get_books_by_rate(id, res, books_names)
-    cr.create_excel(rated, str(id))
+    cr.create_report_excel(rated, str(id))
 
     resp = Response(mmsToJson(names, rated, id))
     resp.headers['Access-Control-Allow-Origin'] = '*'
@@ -197,14 +197,12 @@ def check_review():
     resp = Response(json.dumps("{ ok }"))
     resp.headers['Access-Control-Allow-Origin'] = '*'
     resp.headers['Access-Control-Allow-Headers'] = '*'
-    print(resp)
     return resp
 
 
 @app.route("/review", methods=['POST'])
 def add_review():
     content = request.json
-    print(content)
     es.add_new_review(content)
     resp = Response(json.dumps("{ status: 200 }"))
     resp.headers['Access-Control-Allow-Origin'] = '*'
@@ -250,4 +248,5 @@ def mmsToJson(names, rated, id):
     return json.dumps(new_list)
 
 
-app.run(host='192.168.56.99', port=8080)
+app.run()
+#host='192.168.56.99', port=8080
